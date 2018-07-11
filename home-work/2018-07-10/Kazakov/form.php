@@ -24,6 +24,12 @@ if ( empty( $_GET['register'] ) || $_GET['register'] != 'success' ) {
 	<?php
 } else {
 	?>
-	Спасибо за регистрацию!
+	Спасибо за регистрацию!<br>
 	<?php
+    //Построчное чтение
+    $s = fopen('users.txt','r');
+    while (!feof($s)) {
+        $line = fgets($s, 1024);
+        echo $line.'<br>';
+    };
 }

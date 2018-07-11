@@ -23,13 +23,12 @@ function pr( $data ) {
 
 function check_form() {
 	//print_r( $_POST );
-
 	$errors = array();
 
 	// если осуществляется передача данных
 	if ( ! empty( $_POST ) ) {
+        check_mail();//функция проверки e-mail
 		$data = $_POST;
-
 		$needle = array(
 			'email'    => 'Не введен Email, либо он не корректный',
 			'password' => 'Не введен пароль',
@@ -37,7 +36,6 @@ function check_form() {
 		);
 
 		foreach ( $needle as $name => $value ) {
-
 			// если значение переданной переменной пусто
 			if ( ! ( ! empty( $data[ $name ] ) && ! empty( esc( $data[ $name ] ) ) ) ) {
 
@@ -66,6 +64,11 @@ function the_errors() {
 	}
 }
 
+function check_mail(){
+    if(!filter_var ($_POST['email'], FILTER_VALIDATE_EMAIL)){
+        $_POST['email'] = '';
+    };
+};
 
 function register( $data ) {
 	foreach ( $data as $key => $value ) {
@@ -81,8 +84,9 @@ function register( $data ) {
 			return $errors;
 		}
 	}
-
-	file_put_contents( 'users.txt', json_encode( $data ) . "\n" );
+	//Реализация дозаписывания в файл
+    $f = file_get_contents('users.txt');
+	file_put_contents( 'users.txt', $f."\n".json_encode( $data )  );
 	header( 'location: ?register=success' );
 }
 

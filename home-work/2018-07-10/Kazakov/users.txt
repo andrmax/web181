@@ -1,1 +1,3 @@
-{"email":"petr@tes.ru","password":"123","agree":"on"}
+{"email":"odin@ya.ru","password":"qwerty1","agree":"on"}
+{"email":"dva@ya.ru","password":"qwerttyy2","agree":"on"}
+{"email":"tri@ya.ru","password":"qwerty3","agree":"on"}
