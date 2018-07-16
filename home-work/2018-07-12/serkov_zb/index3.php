@@ -4,6 +4,10 @@
  * Zakhar Serkov <zakharserkov@me.com>
  */
 
+/*Задание:
+Создайте многомерный массив $arr.
+С его помощью выведите на экран слова 'joomla', 'drupal', 'зеленый', 'красный'.
+*/
 // Создаем массив
 $arr = array(
     'cms' => array('joomla', 'wordpress', 'drupal'),
