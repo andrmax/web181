@@ -1,0 +1,12 @@
+div:before,
+div:after {
+  display: block;
+  content: '';
+  clear: both;
+}
+.vid {
+  display: table;
+  width: 3em;
+  float: left;
+}
+/*# sourceMappingURL=vid.css.map */
