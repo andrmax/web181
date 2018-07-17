@@ -19,5 +19,4 @@ foreach ($array as $value) {
     }
 }
 
-
 // eof
