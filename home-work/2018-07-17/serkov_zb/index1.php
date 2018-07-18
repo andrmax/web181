@@ -27,5 +27,4 @@ foreach ($array as $arr) {
     }
 }
 
-//echo pow(2, 4);
 // eof
