@@ -1,0 +1,184 @@
+body {
+  padding: 0;
+  margin: 0;
+  font-family: sans-serif;
+}
+div {
+  box-sizing: border-box;
+}
+div:before,
+div:after {
+  clear: both;
+  display: block;
+  content: '';
+}
+.container,
+.section-top__container,
+.section-math__container,
+.section-action__container,
+.section-bottom__container {
+  padding: 0 15px;
+  max-width: 980px;
+  margin: auto;
+}
+.input,
+.button,
+.section-math__input,
+.action__input,
+.section-math__submit,
+.action__submit {
+  box-sizing: border-box;
+  border: 1px solid #4260ff;
+  padding: 5px 10px;
+  margin: 0;
+  display: inline-block;
+  font-size: 16px;
+  font-weight: 300;
+}
+.button,
+.section-math__submit,
+.action__submit {
+  background-color: #4260ff;
+  color: #fff;
+  text-align: center;
+  cursor: pointer;
+}
+.section-top__slider {
+  background-color: #4260ff;
+}
+.section-top__slider-item {
+  height: 400px;
+  width: 100%;
+  display: table;
+}
+.section-top__slider-item-block {
+  display: table-cell;
+  vertical-align: middle;
+}
+.section-top__title {
+  text-align: center;
+  color: #fff;
+  margin: 0 0 15px 0;
+  font-size: 24px;
+  font-weight: 300;
+  text-transform: uppercase;
+}
+.section-top__subtitle {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0;
+  font-size: 20px;
+  font-weight: 300;
+}
+.section-math__container {
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+.section-math__form {
+  margin: auto;
+  display: table;
+}
+.section-math__result {
+  color: #555;
+  text-align: center;
+  font-size: 24px;
+  font-weight: 300;
+  padding: 15px 0 0 0;
+}
+.section-action__over__row {
+  margin: 0 15px;
+}
+.section-action__row {
+  margin: 0 -15px;
+  position: relative;
+}
+.section-action__row:before {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 50%;
+  background-color: #4260ff;
+  z-index: -1;
+}
+.section-action__sub__picture {
+  display: table-cell;
+  vertical-align: middle;
+}
+.section-action__picture,
+.section-action__form {
+  float: left;
+  display: table;
+  width: 50%;
+  height: 300px;
+}
+.section-action__picture {
+  padding: 30px 15px 0 15px;
+}
+.section-action__title {
+  text-align: center;
+  color: #fff;
+  margin: 0 0 15px 0;
+  font-size: 20px;
+  font-weight: 300;
+  text-transform: uppercase;
+}
+.section-action__subtitle {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0;
+  font-size: 16px;
+  font-weight: 300;
+}
+.section-bottom {
+  position: relative;
+  background-color: #4260ff;
+  z-index: -2;
+}
+.section-bottom:before {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 50%;
+  background-color: #fff;
+  z-index: -1;
+}
+.section-bottom__container {
+  position: relative;
+}
+.section-bottom__sub__creator a {
+  color: #f1f1f1;
+}
+.section-bottom__sub__copy,
+.section-bottom__sub__creator {
+  display: table-cell;
+  vertical-align: middle;
+}
+.section-bottom__copy,
+.section-bottom__creator {
+  display: table;
+  box-sizing: border-box;
+  float: left;
+  width: 50%;
+  height: 100px;
+  text-align: center;
+}
+.action {
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+}
+.action__form {
+  margin: auto;
+  width: 90%;
+  min-width: 250px;
+}
+.action__input {
+  width: 100%;
+  margin-bottom: 5px;
+}
+.action__submit {
+  width: 100%;
+}
+/*# sourceMappingURL=style.css.map */
