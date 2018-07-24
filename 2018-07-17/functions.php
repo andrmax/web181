@@ -65,7 +65,7 @@ function menu() {
 function recursive( $array, $i = 0 ) {
 
 	// 1 - это константа, которая определяет уровень, ниже которого не следует строить вложенные списки
-	if ( 1 == $i ) {
+	if ( 5 == $i ) {
 		return '';
 	}
 	$i ++;
@@ -80,7 +80,14 @@ function recursive( $array, $i = 0 ) {
 
 	}
 
-	$out = '<ul>' . $out . '</ul>';
+	// если уровень вложенности больше 1-го
+	if ( $i > 1 ) {
+		$ul_class = 'sublist';
+	} else {
+		$ul_class = 'list';
+	}
+
+	$out = '<ul class="' . $ul_class . '">' . $out . '</ul>';
 
 	return $out;
 }
