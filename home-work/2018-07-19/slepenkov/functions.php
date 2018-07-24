@@ -33,12 +33,15 @@ function init() {
 	include 'templates/footer.php';
 }
 function email(){
-    $email = "";
-    if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        echo "Адрес указан корректно.";
+    if($_POST['email'] == ''){
     }else{
-        echo "Адрес указан не правильно.";
+        $email = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL);
+        if ($email == $_POST['email']){
+            echo 'Правильный email';
+        }else{
+            echo 'Указанный E-mail не корректен';
+        }
     }
-
 }
+
 // eof
