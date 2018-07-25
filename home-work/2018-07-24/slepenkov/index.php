@@ -4,7 +4,7 @@
  * @author Isaenko Alexey <info@oiplug.com>
  */
 
-require '../config.php';
+//require '../../config.php';
 
 function save_post() {
 	if ( ! empty( $_POST['save_post'] ) ) {
