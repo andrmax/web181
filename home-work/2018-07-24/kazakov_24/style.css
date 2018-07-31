@@ -101,7 +101,61 @@ a {
 }
 .auth,
 .regis {
+  margin: 15px 0px 0px 15px;
+  padding: 10px;
   font-family: 'Lobster', cursive;
-  font-size: 1.8em;
+  font-size: 1em;
+  background: white;
+  border: 1px #9933FF solid;
+  border-radius: 5px;
+}
+.fill {
+  margin: 0px 0px 0px 15px;
+  display: table;
+}
+h2 {
+  color: #9900CC;
+  text-align: center;
+}
+.form-login__submit,
+.form-registration__submit {
+  /*.form-login__submit, .form-registration__submit {*/
+  background: white;
+  border: 1px #9933FF solid;
+  border-radius: 5px;
+  font-family: 'Modern Antiqua', cursive;
+  font-size: 1.1em;
+  color: #009933;
+  width: 100px;
+  float: right;
+  margin: 0px 5px;
+}
+.form-ligin__login,
+.form-login__password,
+.form-registration__login,
+.form-registration__password {
+  border: 1px #9933FF solid;
+  border-radius: 5px;
+  height: 20px;
+  width: 200px;
+}
+.test {
+  display: table;
+}
+.label,
+.label_log,
+.label_pass {
+  float: left;
+  display: table;
+  font-family: 'Amatic SC', cursive;
+  color: #9933FF;
+  font-size: 1em;
+  font-weight: 700;
+}
+.label_log {
+  margin: 0px 0px 0px 85px;
+}
+.label_pass {
+  margin: 0px 0px 0px 177px;
 }
 /*# sourceMappingURL=style.css.map */

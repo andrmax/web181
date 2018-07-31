@@ -1,15 +1,3 @@
-<?php
-if(is_user_logged_in()){
-$errors = save_post();
-$data   = array(
-	'title'   => '',
-	'content' => '',
-);
-if ( ! empty( $errors ) ) {
-	$data = $_POST;
-}
-echo $errors;
-?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -26,9 +14,23 @@ echo $errors;
     <link href="https://fonts.googleapis.com/css?family=Pattaya" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Jura" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Modern+Antiqua" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Amatic+SC" rel="stylesheet">
 
 </head>
 <body>
+<?php
+if(is_user_logged_in()){
+$errors = save_post();
+$data   = array(
+	'title'   => '',
+	'content' => '',
+);
+if ( ! empty( $errors ) ) {
+	$data = $_POST;
+}
+echo $errors;
+?>
 <div class="general">
     <form method="post" class="form">
         <div class="over_caption">
@@ -55,8 +57,11 @@ echo $errors;
 </div>
 <?php
 }else{
+    echo '<div class="fill">';
     get_template('auth');
     get_template('registration');
+    echo '</div>';
+
 }
 ?>
 </body>
