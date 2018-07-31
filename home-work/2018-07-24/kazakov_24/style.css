@@ -28,13 +28,13 @@ div:after {
   display: table;
 }
 .sub_caption {
-  border: 1px #9933FF solid;
+  border: 1px #9933FF  solid;
   border-radius: 5px;
   height: 30px;
   width: 234px;
 }
 .sub_message {
-  border: 1px #9933FF solid;
+  border: 1px #9933FF  solid;
   border-radius: 5px;
 }
 .sign {
@@ -48,7 +48,7 @@ div:after {
 }
 .form__submit {
   background: white;
-  border: 1px #9933FF solid;
+  border: 1px #9933FF  solid;
   border-radius: 5px;
   font-family: 'Caveat', cursive;
   font-size: 1.3em;
@@ -62,7 +62,7 @@ div:after {
   padding: 15px 5px 5px 5px;
   display: table;
   background: white;
-  border: 1px #9933FF solid;
+  border: 1px #9933FF  solid;
   border-radius: 5px;
   font-family: 'Caveat', cursive;
   width: 500px;
@@ -74,7 +74,7 @@ div:after {
   padding: 5px 10px;
   display: table;
   background: white;
-  border: 1px #9933FF solid;
+  border: 1px #9933FF  solid;
   border-radius: 5px;
   font-family: 'Audiowide', cursive;
   font-size: 1em;
@@ -106,7 +106,7 @@ a {
   font-family: 'Lobster', cursive;
   font-size: 1em;
   background: white;
-  border: 1px #9933FF solid;
+  border: 1px #9933FF  solid;
   border-radius: 5px;
 }
 .fill {
@@ -121,7 +121,7 @@ h2 {
 .form-registration__submit {
   /*.form-login__submit, .form-registration__submit {*/
   background: white;
-  border: 1px #9933FF solid;
+  border: 1px #9933FF  solid;
   border-radius: 5px;
   font-family: 'Modern Antiqua', cursive;
   font-size: 1.1em;
