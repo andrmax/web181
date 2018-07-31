@@ -1,0 +1,96 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+div {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+div:before,
+div:after {
+  display: block;
+  content: '';
+  clear: both;
+}
+.general {
+  padding: 10px 25px;
+}
+.over_caption,
+.over_message {
+  display: table;
+  padding: 5px;
+  font-family: 'Caveat', cursive;
+  font-size: 1.8em;
+  color: #663366;
+}
+.caption {
+  display: table;
+}
+.sub_caption {
+  border: 1px #9933FF solid;
+  border-radius: 5px;
+  height: 30px;
+  width: 234px;
+}
+.sub_message {
+  border: 1px #9933FF solid;
+  border-radius: 5px;
+}
+.sign {
+  float: left;
+  display: table;
+  width: 120px;
+}
+.form {
+  margin: 0px 0px 20px 0px;
+  width: 366px;
+}
+.form__submit {
+  background: white;
+  border: 1px #9933FF solid;
+  border-radius: 5px;
+  font-family: 'Caveat', cursive;
+  font-size: 1.3em;
+  width: 50px;
+  float: right;
+  margin: 0px 5px;
+}
+.record_echo {
+  position: relative;
+  margin: 0px 0px 25px 0px;
+  padding: 15px 5px 5px 5px;
+  display: table;
+  background: white;
+  border: 1px #9933FF solid;
+  border-radius: 5px;
+  font-family: 'Caveat', cursive;
+  width: 500px;
+}
+.recording_time {
+  position: absolute;
+  top: -16px;
+  left: 15px;
+  padding: 5px 10px;
+  display: table;
+  background: white;
+  border: 1px #9933FF solid;
+  border-radius: 5px;
+  font-family: 'Audiowide', cursive;
+  font-size: 1em;
+  height: 30px;
+}
+.caption_echo {
+  display: table;
+  font-family: 'Pattaya', sans-serif;
+  font-size: 1.1em;
+  font-weight: 500;
+  text-align: center;
+  width: 100%;
+}
+.message_echo {
+  text-align: justify;
+  font-family: 'Jura', sans-serif;
+  font-size: 1em;
+}
+/*# sourceMappingURL=style.css.map */
