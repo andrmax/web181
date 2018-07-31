@@ -43,7 +43,7 @@ div:after {
   width: 120px;
 }
 .form {
-  margin: 0px 0px 20px 0px;
+  margin: 0px 0px 10px 0px;
   width: 366px;
 }
 .form__submit {
@@ -92,5 +92,16 @@ div:after {
   text-align: justify;
   font-family: 'Jura', sans-serif;
   font-size: 1em;
+}
+a {
+  display: block;
+  font-family: 'Caveat', cursive;
+  font-size: 1.8em;
+  margin: 0px 0px 30px 290px;
+}
+.auth,
+.regis {
+  font-family: 'Lobster', cursive;
+  font-size: 1.8em;
 }
 /*# sourceMappingURL=style.css.map */

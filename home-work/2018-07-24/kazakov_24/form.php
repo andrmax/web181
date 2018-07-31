@@ -1,5 +1,5 @@
 <?php
-
+if(is_user_logged_in()){
 $errors = save_post();
 $data   = array(
 	'title'   => '',
@@ -25,6 +25,7 @@ echo $errors;
     <link href="https://fonts.googleapis.com/css?family=Audiowide" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Pattaya" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Jura" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
 
 </head>
 <body>
@@ -47,12 +48,16 @@ echo $errors;
         </div>
         <input type="hidden" name="save_post" value="1">
     </form>
+    <a href="?event=logout">LogOut</a>
     <?php
-    get_posts();
-
+        get_posts();
     ?>
 </div>
-
-
+<?php
+}else{
+    get_template('auth');
+    get_template('registration');
+}
+?>
 </body>
 </html>
