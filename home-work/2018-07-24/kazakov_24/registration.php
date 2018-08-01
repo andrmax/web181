@@ -1,3 +1,5 @@
+<!-- тут помещал блоки в другие блоки и писал классы-->
+
 <div class="regis">
     <h2>Регистрация</h2>
     <form class="form-registration" method="post">

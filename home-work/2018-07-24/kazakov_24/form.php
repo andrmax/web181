@@ -1,3 +1,5 @@
+<!-- строки 2-25 перемесил за пределы оператора if так как в противном случае
+не работают классы в подключаемых файлах в условии else (стр. 82) -->
 <!doctype html>
 <html lang="en">
 <head>
@@ -36,6 +38,7 @@ echo $errors;
 ?>
 <div class="general">
     <?php
+    // Строки 40-52: Реализазция отображения имени и логина вошедшего на странице
     list($login, $password) = explode(';',$_COOKIE['login_password']);
     $content_1 = file_get_contents('users.db');
     $users = explode("\n",$content_1);
@@ -51,6 +54,7 @@ echo $errors;
         }
     }
     ?>
+    <!-- В строках 55-73 блоки помещал в другие блоки и писал классы -->
     <form method="post" class="form">
         <div class="over_caption">
             <div class="sign">Тема:</div>

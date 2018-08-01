@@ -59,15 +59,16 @@ function get_posts() {
 
             /*$date_5 = date_format($date_3, 'H:i:s d.m.Y');//Сразу создаем переменную в формате строки в нужном формате*/
 
+            //Вывод публикации, темы и времени:
             $file_content = json_decode( $file_content, true );
             if ( is_array( $file_content ) ) {
                 $recording_time = $date_5;
                 $caption = $file_content['title'];
                 $message = $file_content['content'];
-                echo '<div class="record_echo">';
-                echo '<div class="recording_time">'.$recording_time.'</div>';
-                echo '<div class="caption_echo">'.$caption.'</div>';
-                echo '<div class="message_echo">'.$message.'</div>';
+                echo '<div class="record_echo">';//контейнер публикации
+                echo '<div class="recording_time">'.$recording_time.'</div>';//вывод времени записи
+                echo '<div class="caption_echo">'.$caption.'</div>';//вывод заголовка
+                echo '<div class="message_echo">'.$message.'</div>';//вывод публикации
                 echo '</div>';
             } else {
                 echo '<div>' . $file_content . '</div>';
@@ -94,10 +95,11 @@ function is_user_logged_in()
             if ($log == $login && $pass == $password) {
                 return true;
             }elseif(($log != $login && $pass == $password)||($log == $login && $pass != $password)){
+                //запись в переменную ошибки если не введен логин или пароль
                 $srch = '<div class="error">Неправильно введен логин или пароль</div>';
             }
         };
-        echo $srch;
+        echo $srch;//вывод ошибки
     };
     return false;
 };
@@ -107,6 +109,7 @@ if(!empty($_POST['event'])&& $_POST['event']=='login'){
     if(!empty($data['login'])&&!empty($data['password'])){
         setcookie('login_password', $data['login'].';'.encryption($data['password']), time()+3600, '/');
         header('location: ?');
+        //строки 113-120: вывод ошибок если что-то не введено в форму
     }elseif(empty($data['login'])&&empty($data['password'])){
         echo '<div class="error">Введите логин и пароль</div>';
     }elseif(empty($data['login'])&&!empty($data['password'])){
@@ -139,10 +142,14 @@ function registration(){
                     return $out;
                 }
             };
-            $file .= "\n".$data['login'] . ';' . encryption($data['password']) .';'.$data['firstname'];//добавил запись имени в файл,
+            $string = "\n".$data['login'] . ';' . encryption($data['password']) .';'.$data['firstname'];//добавил запись имени в файл,
             // поставил перевод строки в начало дабы не было пустой строки в файле после записи, иначе
             // вылезает "Undefined offset: 1" при использовании функции list()
-            file_put_contents('users.db', $file);
+
+            //дописывание файла без его полного переписывания
+            $file = fopen('users.db','a');//Открываем файл в переменную
+            fwrite($file, $string);//записываем в файд данные
+            fclose($file);//закрываем файл
             setcookie('login_password', $data['login'] . ';' . encryption($data['password']), time() + 3600, '/');
             header('location: ?');
         }else{
