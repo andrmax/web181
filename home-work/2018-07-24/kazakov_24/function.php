@@ -75,6 +75,10 @@ function get_posts() {
         }
     }
 }
+function encryption($data){  //функция шифровки
+    return md5($data.'t_*7(4ff');
+};
+
 //Проверка авторизации пользователя с использлванием COOKIE
 function is_user_logged_in()
 {
@@ -101,7 +105,7 @@ function login(){//изменил функцию
 if(!empty($_POST['event'])&& $_POST['event']=='login'){
     $data = $_POST;
     if(!empty($data['login'])&&!empty($data['password'])){
-        setcookie('login_password', $data['login'].';'.$data['password'], time()+3600, '/');
+        setcookie('login_password', $data['login'].';'.encryption($data['password']), time()+3600, '/');
         header('location: ?');
     }elseif(empty($data['login'])&&empty($data['password'])){
         echo '<div class="error">Введите логин и пароль</div>';
@@ -135,11 +139,11 @@ function registration(){
                     return $out;
                 }
             };
-            $file .= "\n".$data['login'] . ';' . $data['password'] .';'.$data['firstname'];//добавил запись имени в файл,
+            $file .= "\n".$data['login'] . ';' . encryption($data['password']) .';'.$data['firstname'];//добавил запись имени в файл,
             // поставил перевод строки в начало дабы не было пустой строки в файле после записи, иначе
             // вылезает "Undefined offset: 1" при использовании функции list()
             file_put_contents('users.db', $file);
-            setcookie('login_password', $data['login'] . ';' . $data['password'], time() + 3600, '/');
+            setcookie('login_password', $data['login'] . ';' . encryption($data['password']), time() + 3600, '/');
             header('location: ?');
         }else{
             echo '<div class="error">При регистрации небходимо ввести логин, имя и пароль</div>';
