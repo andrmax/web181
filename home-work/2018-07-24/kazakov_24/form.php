@@ -16,6 +16,8 @@
     <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Modern+Antiqua" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Amatic+SC" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Underdog" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Neucha" rel="stylesheet">
 
 </head>
 <body>
@@ -32,6 +34,20 @@ if ( ! empty( $errors ) ) {
 echo $errors;
 ?>
 <div class="general">
+    <?php
+    list($login, $password) = explode(';',$_COOKIE['login_password']);
+    $content_1 = file_get_contents('users.db');
+    $users = explode("\n",$content_1);
+    foreach($users as $user){
+        list($lgn, $psw, $nm) = explode(';', $user);
+        if($lgn == $login && $psw == $password){
+            echo '<div class="hello">';
+            echo '<div class="subhello_1">Здравствуйте '.$nm.'</div>';
+            echo '<div class="subhello_2">Вы вошли как '.$lgn.'</div>';
+            echo '</div>';
+        }
+    }
+    ?>
     <form method="post" class="form">
         <div class="over_caption">
             <div class="sign">Тема:</div>

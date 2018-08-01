@@ -72,7 +72,6 @@ function get_posts() {
             } else {
                 echo '<div>' . $file_content . '</div>';
             }
-
         }
     }
 }
@@ -85,22 +84,36 @@ function is_user_logged_in()
     if (!empty($login) && !empty($password)) {
         $users = file_get_contents('users.db');
         $users = explode("\n", $users);
+        $srch ='';
         foreach ($users as $user) {
             list($log, $pass) = explode(';', $user);
             if ($log == $login && $pass == $password) {
                 return true;
+            }elseif(($log != $login && $pass == $password)||($log == $login && $pass != $password)){
+                $srch = '<div class="error">Неправильно введен логин или пароль</div>';
             }
         };
+        echo $srch;
     };
     return false;
 };
-function login(){
+function login(){//изменил функцию
 if(!empty($_POST['event'])&& $_POST['event']=='login'){
     $data = $_POST;
-    setcookie('login_password', $data['login'].';'.$data['password'], time()+3600, '/');
-    header('location: ?');
+    if(!empty($data['login'])&&!empty($data['password'])){
+        setcookie('login_password', $data['login'].';'.$data['password'], time()+3600, '/');
+        header('location: ?');
+    }elseif(empty($data['login'])&&empty($data['password'])){
+        echo '<div class="error">Введите логин и пароль</div>';
+    }elseif(empty($data['login'])&&!empty($data['password'])){
+        echo '<div class="error">Введите логин </div>';
+    }elseif(!empty($data['login'])&&empty($data['password'])){
+        echo '<div class="error">Введите пароль</div>';
+    }
 }
 };
+
+
 function logout(){
     if(!empty($_GET['event'])&& $_GET['event']=='logout'){
     setcookie('login_password', '', time()-24*3600, '/');
@@ -110,21 +123,28 @@ function logout(){
 };
 function registration(){
     $out ='';
-    if(!empty($_POST['event'])&&$_POST['event']=='registration'){
-        $data = $_POST;
-        $file = file_get_contents('users.db');
-        $users = explode("\n", $file);
-        foreach ($users as $user) {
-            list($log, $pass) = explode(';', $user);
-            if ($log == $data['login']) {
-                $out = 'Пользователь с данным логином уже зарегистрирован';
-                return $out;
-            }
-        };
-        $file .= $data['login'].';'.$data['password']."\n";
-        file_put_contents('users.db', $file);
-        setcookie('login_password', $data['login'].';'.$data['password'], time()+3600, '/');
-        header('location: ?');
+    if(!empty($_POST['event'])&&$_POST['event']=='registration') {
+        if (!empty($_POST['login']) && !empty($_POST['password']) && !empty($_POST['firstname'])) {
+            $data = $_POST;
+            $file = file_get_contents('users.db');
+            $users = explode("\n", $file);
+            foreach ($users as $user) {
+                list($log, $pass, $nm) = explode(';', $user);
+                if ($log == $data['login']) {
+                    $out = '<div class="error">Пользователь с данным логином уже зарегистрирован</div>';
+                    return $out;
+                }
+            };
+            $file .= "\n".$data['login'] . ';' . $data['password'] .';'.$data['firstname'];//добавил запись имени в файл,
+            // поставил перевод строки в начало дабы не было пустой строки в файле после записи, иначе
+            // вылезает "Undefined offset: 1" при использовании функции list()
+            file_put_contents('users.db', $file);
+            setcookie('login_password', $data['login'] . ';' . $data['password'], time() + 3600, '/');
+            header('location: ?');
+        }else{
+            echo '<div class="error">При регистрации небходимо ввести логин, имя и пароль</div>';
+        }
+
     };
     return $out;
 };

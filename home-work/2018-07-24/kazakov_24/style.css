@@ -15,6 +15,8 @@ div:after {
 }
 .general {
   padding: 10px 25px;
+  width: 65%;
+  float: left;
 }
 .over_caption,
 .over_message {
@@ -26,6 +28,7 @@ div:after {
 }
 .caption {
   display: table;
+  float: left;
 }
 .sub_caption {
   border: 1px #9933FF solid;
@@ -34,6 +37,7 @@ div:after {
   width: 234px;
 }
 .sub_message {
+  float: left;
   border: 1px #9933FF solid;
   border-radius: 5px;
 }
@@ -120,12 +124,12 @@ h2 {
 .form-login__submit,
 .form-registration__submit {
   /*.form-login__submit, .form-registration__submit {*/
-  background: white;
+  background: #9900CC;
   border: 1px #9933FF solid;
   border-radius: 5px;
   font-family: 'Modern Antiqua', cursive;
   font-size: 1.1em;
-  color: #009933;
+  color: white;
   width: 100px;
   float: right;
   margin: 0px 5px;
@@ -133,7 +137,8 @@ h2 {
 .form-ligin__login,
 .form-login__password,
 .form-registration__login,
-.form-registration__password {
+.form-registration__password,
+.form-registration__name {
   border: 1px #9933FF solid;
   border-radius: 5px;
   height: 20px;
@@ -144,7 +149,8 @@ h2 {
 }
 .label,
 .label_log,
-.label_pass {
+.label_pass,
+.label_name {
   float: left;
   display: table;
   font-family: 'Amatic SC', cursive;
@@ -157,5 +163,35 @@ h2 {
 }
 .label_pass {
   margin: 0px 0px 0px 177px;
+}
+.label_name {
+  margin: 0px 0px 0px 85px;
+}
+.error {
+  margin: 20px 0px 0px 90px;
+  font-family: 'Underdog', cursive;
+  color: #FF0033;
+  font-size: 1.5em;
+  width: 435px;
+  text-align: center;
+}
+.hello {
+  text-align: center;
+  display: table;
+  max-width: 250px;
+  margin: 7px 0px 0px 340px;
+  padding: 0px 6px 3px 8px;
+  border: 1px #9933FF solid;
+  border-radius: 5px;
+}
+.subhello_1 {
+  font-family: 'Neucha', cursive;
+  color: #9933FF;
+  font-size: 1.5em;
+}
+.subhello_2 {
+  font-family: 'Neucha', cursive;
+  color: #9933FF;
+  font-size: 1.1em;
 }
 /*# sourceMappingURL=style.css.map */
