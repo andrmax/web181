@@ -18,6 +18,7 @@
     <link href="https://fonts.googleapis.com/css?family=Amatic+SC" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Underdog" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Neucha" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Iceberg" rel="stylesheet">
 
 </head>
 <body>
@@ -41,9 +42,11 @@ echo $errors;
     foreach($users as $user){
         list($lgn, $psw, $nm) = explode(';', $user);
         if($lgn == $login && $psw == $password){
+            echo '<div>';
             echo '<div class="hello">';
             echo '<div class="subhello_1">Здравствуйте '.$nm.'</div>';
             echo '<div class="subhello_2">Вы вошли как '.$lgn.'</div>';
+            echo '</div>';
             echo '</div>';
         }
     }
@@ -57,16 +60,16 @@ echo $errors;
         </div>
         <div class="over_message">
             <div class="sign">Сообщение:</div>
-            <textarea class="sub_message" name="content" id="" cols="30" rows="10" class="form__textarea">
+            <div class="message"><textarea class="sub_message" name="content" id="" cols="30" rows="10" class="form__textarea">
                 <?php echo $data['content']; ?>
-            </textarea>
+            </textarea></div>
         </div>
         <div class="button">
             <button type="submit" class="form__submit">OK</button>
+            <a href="?event=logout">LogOut</a>
         </div>
         <input type="hidden" name="save_post" value="1">
     </form>
-    <a href="?event=logout">LogOut</a>
     <?php
         get_posts();
     ?>

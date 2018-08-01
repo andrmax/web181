@@ -20,7 +20,6 @@ div {
   float: left;
 }
 .over_caption, .over_message {
-  display: table;
   padding: 5px;
   font-family: 'Caveat', cursive;
   font-size: 1.8em;
@@ -29,35 +28,40 @@ div {
 .caption {
   display: table;
   float: left;
+  width: 70%;
 }
 .sub_caption {
   border: 1px #9933FF  solid;
   border-radius: 5px;
   height: 30px;
-  width: 234px;
+  width: 100%;
+}
+.message {
+  width: 70%;
+  float: right;
 }
 .sub_message{
-  float: left;
+  width: 100%;
   border: 1px #9933FF  solid;
   border-radius: 5px;
 }
 .sign {
   float: left;
   display: table;
-  width: 120px;
+  width: 30%;
+  text-align: right;
+  padding-right: 10px;
 }
 .form {
   margin: 0px 0px 10px 0px;
-  width: 366px;
   &__submit {
     background: white;
-    border: 1px #9933FF  solid;
+    border: 1px #9933FF solid;
     border-radius: 5px;
     font-family: 'Caveat', cursive;
     font-size: 1.3em;
     width: 50px;
-    float: right;
-    margin: 0px 5px;
+    margin: 0 0 0 30%;
   }
 }
 .record_echo {
@@ -69,7 +73,7 @@ div {
   border: 1px #9933FF  solid;
   border-radius: 5px;
   font-family: 'Caveat', cursive;
-  width: 500px;
+  width: 100%;
 }
 .recording_time {
   position: absolute;
@@ -77,11 +81,12 @@ div {
   left: 15px;
   padding: 5px 10px;
   display: table;
-  background: white;
-  border: 1px #9933FF  solid;
+  background: black;
+  border: 2px #9933FF  solid;
   border-radius: 5px;
-  font-family: 'Audiowide', cursive;
+  font-family: 'Iceberg', cursive;
   font-size: 1em;
+  color: #00CC00;
   height: 30px;
 }
 .caption_echo{
@@ -99,9 +104,10 @@ div {
 }
 a {
   display: block;
+  float: right;
   font-family: 'Caveat', cursive;
   font-size: 1.8em;
-  margin: 0px 0px 30px 290px;
+  margin: 0px 0px 30px 0px;
 }
 .auth, .regis {
   margin: 15px 0px 0px 15px;
