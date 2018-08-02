@@ -5,7 +5,6 @@
  */
 require '../../../config.php';
 require 'functions.php';
-
 include 'header.php';
 
 $products = [
@@ -43,65 +42,60 @@ $products = [
     ],
 
 ];
+ //Для реализации сортировки станадартными функциями  выбрал функцию  usort()
 
-$values = [
-    'title',
-    'name',
-    'description',
-    'price',
-    'discount_price',
-    'image',
-];
-
-$out = [];
-$order = [];
-
-
-foreach ($products as $product) {
-    foreach ($values as $key) {
-        if (empty($product[$key])) {
-            $product[$key] = '';
-        }
+//Написал две callback функции для usort()
+function cmp_1($data_1, $data_2)//первая callback функция
+{
+    if ($data_1['price'] == $data_2['price']) {
+        return 0;
     }
-    //При выполнении ДЗ, а именно: "Поправить индексацию элементов при сортировке с помощью
-    //циклов" пришел к выводу, что изменить повторяющийся ключ добавлением строчных
-    //элементов типа "-" не получится, так как ключи содержащие число будут
-    //преобразованы в тип integer ('100-' преобразуется снова в 100), прибавление
-    //дробной части к ключу даст тот же эффект (float преобразуется в integer, 100.001 преобразуется в 100).
-    //Кроме того, если цены будут отличаться только цифрами после запятой, то использоваание цены в
-    //качестве индекса, приведет к тому что получим набор одних и тех же индексов.
-    //Так как маловероятно, что число знаков после запятой в цене будет больше двух, при создании
-    //ключей (для сортировки) может сначала помножить цену на 1000, а потом использовать как ключ.
-    //Если и после этого некторые цены остаются одинаковыми, то вот тогда  в цикле while
-    //будем прибавлять единицу к повторяющемуся значению (обеспечив запас прибавлений к
-    //повторяющимся значениям максимум 10 раз).
-    $index = $product['price']*1000;
-    while (in_array($index, $order)) {
-        $index += 1;
-    }
-    $order[] = $index;
-    $product['image'] = 'assets/images/' . $product['image'];
-    $out[$index] = get_template('templates/product', $product);
+    return ($data_1['price'] < $data_2['price']) ? -1 : 1;
 }
 
+function cmp_2($data_1, $data_2)//вторая callback функция
+{
+    if ($data_1['price'] == $data_2['price']) {
+        return 0;
+    }
+    return ($data_1['price'] > $data_2['price']) ? -1 : 1;
+}
+
+//Сортровка массива $products функцией usort()
 if (!empty($_GET['orderby']) && $_GET['orderby'] == 'price_low') {
-    sort($order );
+    usort($products, 'cmp_1');
 } else {
-    rsort($order);
-}
-$new_out = [];
-foreach ($order as $index) {
-    $new_out[] = $out[$index];
+    usort($products, 'cmp_2');
 }
 
-$out = '<div class="products">' . implode('', $new_out) . '</div>';
+    $values = [
+        'title',
+        'name',
+        'description',
+        'price',
+        'discount_price',
+        'image',
+    ];
 
+    $out = [];
+    $order = [];
 
-$options = [
-    'price_low' => 'Сначала низкие',
-    'price_hi' => 'Сначала высокие',
-];
-?>
+    foreach ($products as $product) {
+        foreach ($values as $key) {
+            if (empty($product[$key])) {
+                $product[$key] = '';
+            }
+        }
+        $product['image'] = 'assets/images/' . $product['image'];
+        $out[] = get_template('templates/product', $product);
+    }
+    $out = '<div class="products">' . implode('', $out) . '</div>';
+
+    $options = [
+        'price_low' => 'Сначала низкие',
+        'price_hi' => 'Сначала высокие',
+    ];
+    ?>
     <form action="">
         <select name="orderby" id="">
             <?php
@@ -120,10 +114,8 @@ $options = [
 
     ДЗ: 1) Сделать сортировку массива с товарами с помощью стандартных функций.
     2) Поправить индексацию элементов при сортировке с помощью циклов.
-<?php
-echo $out;
+    <?php
+    echo $out;
 
-
-include 'footer.php';
-
+    include 'footer.php';
 // eof
