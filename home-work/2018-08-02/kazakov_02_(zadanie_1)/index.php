@@ -14,7 +14,7 @@ $products = [
         'name' => 'dry-soup',
         'description' => '',
         'image' => 'borsch.jpg',
-        'price' => 200,
+        'price' => 100.03,
         'discount_price' => 99.99,
     ],
     [
@@ -22,7 +22,7 @@ $products = [
         'name' => 'onion-sweet',
         'description' => '',
         'image' => 'pirojnoe.jpg',
-        'price' => 100,
+        'price' => 100.04,
         'discount_price' => 0,
     ],
     [
@@ -30,7 +30,7 @@ $products = [
         'name' => 'onion-cookie',
         'description' => '',
         'image' => 'cookies.jpeg',
-        'price' => 100,
+        'price' => 100.05,
         'discount_price' => 0,
     ],
     [
@@ -38,7 +38,7 @@ $products = [
         'name' => 'solt-boot',
         'description' => '',
         'image' => 'valenok.jpg',
-        'price' => 250,
+        'price' => 100.07,
         'discount_price' => 0,
     ],
 
@@ -55,23 +55,7 @@ $values = [
 
 $out = [];
 $order = [];
-// 100, 101, 100-1, 100-2
 
-//Так как приписывание к ранее найденному значению "-" (в цикле while) не работает,
-// я принял решение прибавлять некое значение заведомо меньшее минимальной разницы между ценами
-
-// поиск наименьшей разницы между значениями цены
-$prices = [];
-foreach($products as $product){
-    $prices[] = $product['price'];
-}
-$different = [];
-for($i = 1; $i < sizeof($prices); $i++){
-    $delta = $prices[$i] - $prices[$i-1];
-    $different[] = abs($delta);
-};
-$min_diff = min($different);//наименьшая разница
-$accessory_value = $min_diff / 1000;//вспомогательное значение для цикла while
 
 foreach ($products as $product) {
     foreach ($values as $key) {
@@ -79,19 +63,29 @@ foreach ($products as $product) {
             $product[$key] = '';
         }
     }
-
-    $index = $product['price'];
+    //При выполнении ДЗ, а именно: "Поправить индексацию элементов при сортировке с помощью
+    //циклов" пришел к выводу, что изменить повторяющийся ключ добавлением строчных
+    //элементов типа "-" не получится, так как ключи содержащие число будут
+    //преобразованы в тип integer ('100-' преобразуется снова в 100), прибавление
+    //дробной части к ключу даст тот же эффект (float преобразуется в integer, 100.001 преобразуется в 100).
+    //Кроме того, если цены будут отличаться только цифрами после запятой, то использоваание цены в
+    //качестве индекса, приведет к тому что получим набор одних и тех же индексов.
+    //Так как маловероятно, что число знаков после запятой в цене будет больше двух, при создании
+    //ключей (для сортировки) может сначала помножить цену на 1000, а потом использовать как ключ.
+    //Если и после этого некторые цены остаются одинаковыми, то вот тогда  в цикле while
+    //будем прибавлять единицу к повторяющемуся значению (обеспечив запас прибавлений к
+    //повторяющимся значениям максимум 10 раз).
+    $index = $product['price']*1000;
     while (in_array($index, $order)) {
         $index += 1;
     }
-    echo $index.'<br>';
     $order[] = $index;
     $product['image'] = 'assets/images/' . $product['image'];
     $out[$index] = get_template('templates/product', $product);
 }
 
 if (!empty($_GET['orderby']) && $_GET['orderby'] == 'price_low') {
-    sort($order);
+    sort($order );
 } else {
     rsort($order);
 }
@@ -100,7 +94,6 @@ foreach ($order as $index) {
     $new_out[] = $out[$index];
 }
 
-print_r($order);
 $out = '<div class="products">' . implode('', $new_out) . '</div>';
 
 
