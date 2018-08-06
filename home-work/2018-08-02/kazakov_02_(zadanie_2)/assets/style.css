@@ -1,0 +1,30 @@
+.product {
+  width: 15%;
+  box-sizing: border-box;
+  float: left;
+  padding: 15px;
+}
+.product__title {
+  text-align: center;
+  margin: 0 0 15px 0;
+  line-height: 1;
+  font-size: 18px;
+  font-weight: 700;
+}
+.product__image {
+  display: block;
+  width: 100%;
+  padding-top: 100%;
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=) 50% 100% / contain no-repeat;
+}
+.product__price {
+  text-align: center;
+  margin: 15px 0 0 0;
+  line-height: 1;
+  font-size: 16px;
+  font-weight: 300;
+}
+.products {
+  box-sizing: border-box;
+}
+/*# sourceMappingURL=style.css.map */

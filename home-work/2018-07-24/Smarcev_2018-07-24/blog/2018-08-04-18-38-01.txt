@@ -1,0 +1,1 @@
+{"title":"<br \/><b>Notice<\/b>:  Undefined index: title in <b>C:\\wamp64\\www\\PhpstormProjects\\HW_SMARCEV\\Smarcev_2018-07-24\\form.php<\/b> on line <b>32<\/b><br \/>","content":"<br \/>\r\n<b>Notice<\/b>:  Undefined index: content in <b>C:\\wamp64\\www\\PhpstormProjects\\HW_SMARCEV\\Smarcev_2018-07-24\\form.php<\/b> on line <b>34<\/b><br \/>\r\n","save_post":"1"}

@@ -1,0 +1,189 @@
+@import "variables";
+
+.form-login {
+  margin:@gitter 0;
+
+  &__login {
+    border: 1px solid @color__sitepur; //цвет рамки
+    border-radius: 3px; //закругление углов (общее)
+    background: #ffffff !important; // желательно прописывать, так как в Chrome при сохранных данных оно может быть желтым
+    outline: none; // удаляет обводку в браузерах хром(желтая) и сафари(синяя)
+    height: @gitter*6+@fontsize__md; // высота на свое усмотрение
+    width: 240px; // ширина на свое усмотрение
+    color: @color__middle; //цвет шрифта в обычном состоянии
+    font-size: @fontsize__md; // Размер шрифта
+    font-family: @font_f; // Стиль шрифта
+  }
+  &__password {
+    border: 1px solid @color__sitepur; //цвет рамки
+    border-radius: 3px; //закругление углов (общее)
+    background: #ffffff !important; // желательно прописывать, так как в Chrome при сохранных данных оно может быть желтым
+    outline: none; // удаляет обводку в браузерах хром(желтая) и сафари(синяя)
+    height: @gitter*6+@fontsize__md; // высота на свое усмотрение
+    width: 120px; // ширина на свое усмотрение
+    color: @color__middle; //цвет шрифта в обычном состоянии
+    font-size: @fontsize__md; // Размер шрифта
+    font-family: @font_f; // Стиль шрифта
+  }
+  &__submit {
+    background-color: @color__sitepur; //цвет
+    border: none; //рамка
+    color: white; //цыет текста
+    padding: @gitter*3 @gitter*6; //расстоянияверх-низ лево-право
+    text-align: center; //выравнивание текста
+    text-decoration: none; //курсива нет
+    display: inline-block; //размещение
+    font-size: @fontsize__md; //
+  }
+}
+  .h2_log {
+    background: @color__sitepur;
+    padding: @gitter*10 @gitter*4;
+    text-align: center;
+    width: 430px;
+
+    &__h2 {
+      font-family: @font_f, sans-serif;
+      position: relative;
+      color: @color__superlight;
+      font-size: @fontsize__md * 1.5;
+      font-weight: normal;
+      line-height: 1; //интервал межстрочный
+      padding:@gitter*2 0;
+      margin: 0;
+      display: inline-block;
+    }
+    &__h2:before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80%;
+      height: 200%;
+      border-radius: 50%/30%;
+      border: 6px solid @color__light;
+      border-left-color: transparent;
+      border-right-color: transparent;
+    }
+
+  }
+
+  //регистрация
+.form-registration {
+  margin:@gitter 0 0 0;
+
+  &__login {
+    border: 1px solid @color__sitepurlight; //цвет рамки
+    border-radius: 3px; //закругление углов (общее)
+    background: #ffffff !important; // желательно прописывать, так как в Chrome при сохранных данных оно может быть желтым
+    outline: none; // удаляет обводку в браузерах хром(желтая) и сафари(синяя)
+    height: @gitter*6+@fontsize__md; // высота на свое усмотрение
+    width: 240px; // ширина на свое усмотрение
+    color: @color__middle; //цвет шрифта в обычном состоянии
+    font-size: @fontsize__md; // Размер шрифта
+    font-family: @font_f; // Стиль шрифта
+  }
+  &__password {
+    border: 1px solid @color__sitepurlight; //цвет рамки
+    border-radius: 3px; //закругление углов (общее)
+    background: #ffffff !important; // желательно прописывать, так как в Chrome при сохранных данных оно может быть желтым
+    outline: none; // удаляет обводку в браузерах хром(желтая) и сафари(синяя)
+    height: @gitter*6+@fontsize__md; // высота на свое усмотрение
+    width: 120px; // ширина на свое усмотрение
+    color: @color__middle; //цвет шрифта в обычном состоянии
+    font-size: @fontsize__md; // Размер шрифта
+    font-family: @font_f; // Стиль шрифта
+  }
+  &__submit {
+    background-color: @color__sitepurlight; //цвет
+    border: none; //рамка
+    color: white; //цыет текста
+    padding: @gitter*3 @gitter*4; //расстоянияверх-низ лево-право
+    text-align: center; //выравнивание текста
+    text-decoration: none; //курсива нет
+    display: inline-block; //размещение
+    font-size: @fontsize__md; //
+  }
+}
+
+.h2_logreg {
+  background: @color__sitepurlight;
+  padding: @gitter*10 @gitter*4;
+  text-align: center;
+  width: 430px;
+
+  &__h2 {
+    font-family: @font_f, sans-serif;
+    position: relative;
+    color: @color__superlight;
+    font-size: @fontsize__md * 1.5;
+    font-weight: normal;
+    line-height: 1; //интервал межстрочный
+    padding:@gitter*2 0;
+    margin: 0;
+    display: inline-block;
+  }
+  &__h2:before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    height: 200%;
+    border-radius: 50%/30%;
+    border: 6px solid @color__light;
+    border-left-color: transparent;
+    border-right-color: transparent;
+  }
+
+}
+
+.form{
+  display: block;
+  width: 500px;
+
+
+  &__input{
+    display: inline-block;
+    border: 1px solid @color__sitepur; //цвет рамки
+    border-radius: 3px; //закругление углов (общее)
+    background: #ffffff !important; // желательно прописывать, так как в Chrome при сохранных данных оно может быть желтым
+    outline: none; // удаляет обводку в браузерах хром(желтая) и сафари(синяя)
+    height: @gitter*6+@fontsize__md; // высота на свое усмотрение
+    margin: 0 0 @gitter 0;
+    width: 100%; // ширина на свое усмотрение
+    color: @color__sitepurlight; //цвет шрифта в обычном состоянии
+    font-size: @fontsize__md; // Размер шрифта
+    font-family: @font_f; // Стиль шрифта
+  }
+  &__textarea{
+    display: inline-block;
+    border: 1px solid @color__sitepur; //цвет рамки
+    border-radius: 3px; //закругление углов (общее)
+    background: #ffffff !important; // желательно прописывать, так как в Chrome при сохранных данных оно может быть желтым
+    outline: none; // удаляет обводку в браузерах хром(желтая) и сафари(синяя)
+    height: (@gitter*6+@fontsize__md)*3; // высота на свое усмотрение
+    width: 100%; // ширина на свое усмотрение
+    margin: 0 0 @gitter 0;
+    color: @color__sitepurlight; //цвет шрифта в обычном состоянии
+    font-size: @fontsize__md; // Размер шрифта
+    font-family: @font_f; // Стиль шрифта
+  }
+  &__submit{
+    background-color: @color__sitepur; //цвет
+    border: none; //рамка
+    color: white; //цыет текста
+    padding: @gitter*3 @gitter*6; //расстоянияверх-низ лево-право
+    text-align: center; //выравнивание текста
+    text-decoration: none; //курсива нет
+    display: inline-block; //размещение
+    font-size: @fontsize__md; //
+    margin: 0 0 @gitter*5 0;
+  }
+}
+
+.hello {
+  color:@color__sitepur;
+}

@@ -53,29 +53,33 @@ function get_posts() {
             $date_4 = date_timestamp_get($date_3);//создаем переменную в формате даты
 
             //создаем переменную в формате строки(запись даты и времени в указанном формате)
-            $date_5 = date('H:i:s d.m.Y', $date_4);
+            $date_5 = date('H:i:s &#160 &#160 d.m.Y', $date_4);
 
             //     Задача №1 Вариант №2 (закомментировать строки 67-70, раскомментировать строку 74):
 
             /*$date_5 = date_format($date_3, 'H:i:s d.m.Y');//Сразу создаем переменную в формате строки в нужном формате*/
 
+            //Вывод публикации, темы и времени:
             $file_content = json_decode( $file_content, true );
             if ( is_array( $file_content ) ) {
                 $recording_time = $date_5;
                 $caption = $file_content['title'];
                 $message = $file_content['content'];
-                echo '<div class="record_echo">';
-                echo '<div class="recording_time">'.$recording_time.'</div>';
-                echo '<div class="caption_echo">'.$caption.'</div>';
-                echo '<div class="message_echo">'.$message.'</div>';
+                echo '<div class="record_echo">';//контейнер публикации
+                echo '<div class="recording_time">'.$recording_time.'</div>';//вывод времени записи
+                echo '<div class="caption_echo">'.$caption.'</div>';//вывод заголовка
+                echo '<div class="message_echo">'.$message.'</div>';//вывод публикации
                 echo '</div>';
             } else {
                 echo '<div>' . $file_content . '</div>';
             }
-
         }
     }
 }
+function encryption($data){  //функция шифровки
+    return md5($data.'t_*7(4ff');
+};
+
 //Проверка авторизации пользователя с использлванием COOKIE
 function is_user_logged_in()
 {
@@ -85,22 +89,38 @@ function is_user_logged_in()
     if (!empty($login) && !empty($password)) {
         $users = file_get_contents('users.db');
         $users = explode("\n", $users);
+        $srch ='';
         foreach ($users as $user) {
             list($log, $pass) = explode(';', $user);
             if ($log == $login && $pass == $password) {
                 return true;
+            }elseif(($log != $login && $pass == $password)||($log == $login && $pass != $password)){
+                //запись в переменную ошибки если не введен логин или пароль
+                $srch = '<div class="error">Неправильно введен логин или пароль</div>';
             }
         };
+        echo $srch;//вывод ошибки
     };
     return false;
 };
-function login(){
+function login(){//изменил функцию
 if(!empty($_POST['event'])&& $_POST['event']=='login'){
     $data = $_POST;
-    setcookie('login_password', $data['login'].';'.$data['password'], time()+3600, '/');
-    header('location: ?');
+    if(!empty($data['login'])&&!empty($data['password'])){
+        setcookie('login_password', $data['login'].';'.encryption($data['password']), time()+3600, '/');
+        header('location: ?');
+        //строки 113-120: вывод ошибок если что-то не введено в форму
+    }elseif(empty($data['login'])&&empty($data['password'])){
+        echo '<div class="error">Введите логин и пароль</div>';
+    }elseif(empty($data['login'])&&!empty($data['password'])){
+        echo '<div class="error">Введите логин </div>';
+    }elseif(!empty($data['login'])&&empty($data['password'])){
+        echo '<div class="error">Введите пароль</div>';
+    }
 }
 };
+
+
 function logout(){
     if(!empty($_GET['event'])&& $_GET['event']=='logout'){
     setcookie('login_password', '', time()-24*3600, '/');
@@ -110,21 +130,32 @@ function logout(){
 };
 function registration(){
     $out ='';
-    if(!empty($_POST['event'])&&$_POST['event']=='registration'){
-        $data = $_POST;
-        $file = file_get_contents('users.db');
-        $users = explode("\n", $file);
-        foreach ($users as $user) {
-            list($log, $pass) = explode(';', $user);
-            if ($log == $data['login']) {
-                $out = 'Пользователь с данным логином уже зарегистрирован';
-                return $out;
-            }
-        };
-        $file .= $data['login'].';'.$data['password']."\n";
-        file_put_contents('users.db', $file);
-        setcookie('login_password', $data['login'].';'.$data['password'], time()+3600, '/');
-        header('location: ?');
+    if(!empty($_POST['event'])&&$_POST['event']=='registration') {
+        if (!empty($_POST['login']) && !empty($_POST['password']) && !empty($_POST['firstname'])) {
+            $data = $_POST;
+            $file = file_get_contents('users.db');
+            $users = explode("\n", $file);
+            foreach ($users as $user) {
+                list($log, $pass, $nm) = explode(';', $user);
+                if ($log == $data['login']) {
+                    $out = '<div class="error">Пользователь с данным логином уже зарегистрирован</div>';
+                    return $out;
+                }
+            };
+            $string = "\n".$data['login'] . ';' . encryption($data['password']) .';'.$data['firstname'];//добавил запись имени в файл,
+            // поставил перевод строки в начало дабы не было пустой строки в файле после записи, иначе
+            // вылезает "Undefined offset: 1" при использовании функции list()
+
+            //дописывание файла без его полного переписывания
+            $file = fopen('users.db','a');//Открываем файл в переменную
+            fwrite($file, $string);//записываем в файд данные
+            fclose($file);//закрываем файл
+            setcookie('login_password', $data['login'] . ';' . encryption($data['password']), time() + 3600, '/');
+            header('location: ?');
+        }else{
+            echo '<div class="error">При регистрации небходимо ввести логин, имя и пароль</div>';
+        }
+
     };
     return $out;
 };
