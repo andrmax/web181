@@ -31,7 +31,7 @@ div:after {
   width: 70%;
 }
 .sub_caption {
-  border: 1px #9933FF solid;
+  border: 1px #9933FF  solid;
   border-radius: 5px;
   height: 30px;
   width: 100%;
@@ -42,7 +42,7 @@ div:after {
 }
 .sub_message {
   width: 100%;
-  border: 1px #9933FF solid;
+  border: 1px #9933FF  solid;
   border-radius: 5px;
 }
 .sign {
@@ -70,7 +70,7 @@ div:after {
   padding: 15px 5px 5px 5px;
   display: table;
   background: white;
-  border: 1px #9933FF solid;
+  border: 1px #9933FF  solid;
   border-radius: 5px;
   font-family: 'Caveat', cursive;
   width: 100%;
@@ -82,7 +82,7 @@ div:after {
   padding: 5px 10px;
   display: table;
   background: black;
-  border: 2px #9933FF solid;
+  border: 2px #9933FF  solid;
   border-radius: 5px;
   font-family: 'Iceberg', cursive;
   font-size: 1em;
@@ -117,7 +117,7 @@ a {
   font-family: 'Lobster', cursive;
   font-size: 1em;
   background: white;
-  border: 1px #9933FF solid;
+  border: 1px #9933FF  solid;
   border-radius: 5px;
 }
 .fill {
@@ -132,7 +132,7 @@ h2 {
 .form-registration__submit {
   /*.form-login__submit, .form-registration__submit {*/
   background: #9900CC;
-  border: 1px #9933FF solid;
+  border: 1px #9933FF  solid;
   border-radius: 5px;
   font-family: 'Modern Antiqua', cursive;
   font-size: 1.1em;
