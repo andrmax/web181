@@ -31,7 +31,7 @@ echo $errors;
     <?php echo_counting_rows ();?>
     </div>
     <form method="post" class="form_for_echo">
-        <br>Введите диапазон нужных строк в интервале от 1 до <?php $i ?>;
+        <br>Введите диапазон нужных строк в интервале от 1 до <?php echo echo_counting_rows () ?>;
         <div>
             От
             <input type="number" name="from" value="<?php echo $data['from']; ?>">

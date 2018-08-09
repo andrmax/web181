@@ -82,8 +82,7 @@ function echo_counting_rows (){
     while ($row = $result->fetch_assoc()){
         $i++;
     }
-    $out = 'Число строк в posts- '.$i;
-    echo $out;
+    return $i;
 }
 
 function get_posts_from_to(){
