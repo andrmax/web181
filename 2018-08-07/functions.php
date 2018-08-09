@@ -4,13 +4,13 @@
  * @author Isaenko Alexey <info@oiplug.com>
  */
 
-/*function get_template( $adds ) {
+function get_template( $adds ) {
 	$path = $adds . '.php';
 	//print_r($path);
 	if ( file_exists( $path ) ) {
 		include $path;
 	}
-}*/
+}
 
 function prepare_insert( $query ) {
 	/*$query = array(
@@ -20,7 +20,7 @@ function prepare_insert( $query ) {
 			'content' => '',
 		),
 	);*/
-print_r($query);
+	print_r( $query );
 	$query_string = array( array(), array() );
 	foreach ( $query['values'] as $key => $value ) {
 		$query_string[0][] = $key;
@@ -62,9 +62,42 @@ function save_post() {
 	return '';
 }
 
+/**
+ * Функция, содержащая настройки нашей системы
+ *
+ * @param $what
+ *
+ * @return array|mixed
+ */
+function options( $what ) {
+	$options = array(
+		// указываем количество записей на странице равное 3-м, потому, что нам так хочется
+		'limit' => 3,
+	);
+
+	if ( ! empty( $what ) ) {
+		return $options[ $what ];
+	} else {
+		return $options;
+	}
+}
+
 function get_posts() {
 
-	$result = do_query( 'SELECT * FROM posts ORDER BY `date` DESC LIMIT 3' );
+	if ( ! empty( $_GET['page'] ) ) {
+		$page = $_GET['page'];
+		if ( 0 > $page ) {
+			$page = 1;
+		}
+	} else {
+		$page = 1;
+	}
+
+
+	$limit  = options( 'limit' );
+	$offset = $limit * ( $page - 1 );
+
+	$result = do_query( 'SELECT * FROM posts ORDER BY `date` DESC LIMIT ' . $limit . ' OFFSET ' . $offset );
 
 	while ( $row = $result->fetch_assoc() ) {
 		echo '<div class="post">'
@@ -75,6 +108,65 @@ function get_posts() {
 		     . '';
 	}
 }
+
+function pagination() {
+	if ( ! empty( $_GET['page'] ) ) {
+		$page = $_GET['page'];
+		if ( 0 > $page ) {
+			$page = 1;
+		}
+	} else {
+		$page = 1;
+	}
+	$result = do_query( 'SELECT COUNT(*) as `count` FROM posts' );
+	while ( $row = $result->fetch_assoc() ) {
+
+		// количество записей соответствующих условиям запроса
+		$count = $row['count'];
+	}
+
+	// кол-во записей, выводимых на странице
+	$limit = options( 'limit' );
+
+	// получение кол-ва страниц
+	$pages = ceil( $count / $limit );
+
+	$template = '<%tag% class="pagination__item%class%" href="?page=%d%">%caption%</%tag%>';
+
+	$out = array();
+	if ( 0 < $page - 1 ) {
+		$out[0] = str_replace( '%d%', $page - 1, $template );
+		$out[0] = str_replace( '%class%', '', $out[0] );
+		$out[0] = str_replace( '%caption%', '<', $out[0] );
+		$out[0] = str_replace( '%tag%', 'a', $out[0] );
+	}
+
+	for ( $i = 1; $i <= $pages; $i ++ ) {
+		if ( $i == $page ) {
+			$class = ' active';
+			$tag   = 'span';
+		} else {
+			$class = '';
+			$tag   = 'a';
+		}
+		$out[ $i ] = str_replace( '%d%', $i, $template );
+		$out[ $i ] = str_replace( '%caption%', $i, $out[ $i ] );
+		$out[ $i ] = str_replace( '%class%', $class, $out[ $i ] );
+		$out[ $i ] = str_replace( '%tag%', $tag, $out[ $i ] );
+	}
+
+	if ( $pages >= $page + 1 ) {
+		$out[ $i ] = str_replace( '%d%', $page + 1, $template );
+		$out[ $i ] = str_replace( '%class%', '', $out[ $i ] );
+		$out[ $i ] = str_replace( '%caption%', '>', $out[ $i ] );
+		$out[ $i ] = str_replace( '%tag%', 'a', $out[ $i ] );
+	}
+
+	$out = '<nav><div class="pagination">' . implode( '', $out ) . '</div></nav>';
+
+	echo $out;
+}
+
 
 /**
  * Проверка, является ли пользователь авторизованным
