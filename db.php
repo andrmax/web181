@@ -9,6 +9,7 @@ global $link;
 
 if ( empty( $link ) ) {
 	$link = mysqli_connect( 'localhost', 'root', 'root', 'web181' );
+	mysqli_set_charset( $link, 'utf8' );
 }
 
 
