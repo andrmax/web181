@@ -3,7 +3,7 @@
  * Date: 07.08.18
  * @author Isaenko Alexey <info@oiplug.com>
  */
-require 'config.php';
+require '../../../config.php';
 
 global $link;
 
