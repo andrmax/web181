@@ -52,20 +52,20 @@ function menu(){
     $count = $mesne_1[0];
 
     $mesne_2 = do_query( 'SELECT * FROM `menu` WHERE((pid=0)&&(id!=0)) ORDER BY `order` ASC ' );
-    echo '<div class="menu">';
+    echo '<ul class="menu">';
     $j= 1;
-    $template = '<%div% class="button button__%first%">'.$row['title'].'</div>';
+
     while ($row = $mesne_2->fetch_assoc()){
         if ($j == 1){
-            echo '<div class="button button__first">'.$row['title'].'</div>';
+            echo '<li class="button button__first">'.$row['title'].'</li>';
         }elseif($j == $count){
-            echo '<div class="button button__last">'.$row['title'].'</div>';
+            echo '<li class="button button__last">'.$row['title'].'</li>';
         }else{
-            echo '<div class="button button__middle">'.$row['title'].'</div>';
+            echo '<li class="button button__middle">'.$row['title'].'</li>';
         };
         $j++;
     }
-    echo '</div>';
+    echo '</ul>';
 }
 
 function prepare_insert( $query ) {
