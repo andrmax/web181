@@ -1,4 +1,7 @@
 # Created by .ignore support plugin (hsz.mobi)
+
+/db.php
+
 ### WordPress template
 *.log
 wp-config.php
