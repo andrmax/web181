@@ -1,0 +1,31 @@
+.post {
+	padding: 0 0 15px 0;
+}
+
+.pagination {
+	margin: auto;
+	display: table;
+
+	&:before,&:after {
+		content:'';
+		clear: both;
+		display: block;
+	}
+	&__item {
+		display: block;
+		float: left;
+		width: 2em;
+		height: 2em;
+		text-align: center;
+		border: 1px solid #eee;
+		line-height: 2em;
+		text-decoration: none;
+
+		&.active {
+			background: green;
+			color: #fff;
+			border-color: green;
+			cursor: pointer;
+		}
+	}
+}
