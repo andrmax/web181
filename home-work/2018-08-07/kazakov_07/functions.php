@@ -4,6 +4,8 @@
  * @author Isaenko Alexey <info@oiplug.com>
  */
 
+mysqli_set_charset($link, 'utf8');
+
 function get_template( $adds ) {
 	$path = $adds . '.php';
 	//print_r($path);
@@ -64,29 +66,30 @@ function save_post() {
 
 function get_posts() {
 
-	$result = do_query( 'SELECT * FROM posts ORDER BY `date` DESC LIMIT 3' );
+	$result = do_query( 'SELECT * FROM posts ORDER BY `date` DESC LIMIT 3 OFFSET 0' );
 
 	while ( $row = $result->fetch_assoc() ) {
 		echo '<div class="post">'
 		     . '<div class="title">' . $row['title'] . '</div>'
 		     . '<div class="content">' . $row['content'] . '</div>'
 		     . '<div class="date">' . $row['date'] . '</div>'
-		     . '</div>'
+		     . '</div><br>'
 		     . '';
 	}
 }
 
 function echo_counting_rows (){
     $i = 0;
-    $result = do_query( 'SELECT * FROM posts ORDER BY `date`' );
+    $result = do_query( 'SELECT * FROM posts ORDER BY `date` DESC' );
     while ($row = $result->fetch_assoc()){
         $i++;
     }
-    return $i;
+    echo $i;
 }
 
 function get_posts_from_to(){
-    $result = do_query( 'SELECT * FROM posts ORDER BY `date`' );
+
+    $result = do_query( 'SELECT * FROM posts ORDER BY `date` DESC' );
     $i =0;
     while ($row = $result->fetch_assoc()){
         $i++;
@@ -97,7 +100,7 @@ function get_posts_from_to(){
             echo 'Указан не корректный диапазон';
         }else{
             $i =0;
-            $result = do_query( 'SELECT * FROM posts ORDER BY `date`' );
+            $result = do_query( 'SELECT * FROM posts ORDER BY `date` DESC' );
             while ($row = $result->fetch_assoc()){
                 $i++;
                 if(($i >= $data['from'])&& ($i <= $data['to'])){
@@ -105,7 +108,7 @@ function get_posts_from_to(){
                         . '<div class="title">' . $row['title'] . '</div>'
                         . '<div class="content">' . $row['content'] . '</div>'
                         . '<div class="date">' . $row['date'] . '</div>'
-                        . '</div>';
+                        . '</div><br>';
                 }
             }
         }

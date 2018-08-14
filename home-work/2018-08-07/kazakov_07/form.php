@@ -25,25 +25,25 @@ echo $errors;
 	<ol>
 		<li>Сделать проверку передаваемых данных, чтобы все специальные символы заменялись html-сущностями</li>
 		<li>Составьте запрос, чтобы получить n записей, начиная с x</li>
-		<li></li>
 	</ol>
     <div>
-    <?php echo_counting_rows ();?>
+    На данный момент в базе <?php echo_counting_rows ();?> записей
     </div>
-    <form method="post" class="form_for_echo">
-        <br>Введите диапазон нужных строк в интервале от 1 до <?php echo echo_counting_rows () ?>;
+    <br>
+<!--    <form method="post" class="form_for_echo">
+        <br>Введите диапазон нужных строк в интервале от 1 до <?php /*echo echo_counting_rows () */?>;
         <div>
             От
-            <input type="number" name="from" value="<?php echo $data['from']; ?>">
+            <input type="number" name="from" value="<?php /*echo $data['from']; */?>">
         </div>
         <div>
             До
-            <input type="number" name="to" value="<?php echo $data['to']; ?>">
+            <input type="number" name="to" value="<?php /*echo $data['to']; */?>">
         </div>
         <button type="submit" class="form__submit">ok</button>
         <input type="hidden" name="show" value="1">
-    </form>
+    </form>-->
 <?php
 
 get_posts_from_to();
-/*get_posts();*/
+get_posts();

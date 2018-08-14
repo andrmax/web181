@@ -1,0 +1,70 @@
+.post {
+  padding: 0 0 15px 0;
+}
+div {
+  box-sizing: border-box;
+}
+div:before,
+div:after {
+  display: block;
+  content: '';
+  clear: both;
+}
+.pagination {
+  margin: auto;
+  display: table;
+}
+.pagination:before,
+.pagination:after {
+  content: '';
+  clear: both;
+  display: block;
+}
+.pagination__item {
+  display: block;
+  float: left;
+  width: 2em;
+  height: 2em;
+  text-align: center;
+  border: 1px solid #eee;
+  line-height: 2em;
+  text-decoration: none;
+}
+.pagination__item.active {
+  background: green;
+  color: #fff;
+  border-color: green;
+  cursor: pointer;
+}
+.spec_out {
+  border: 2px solid #9900CC;
+  border-radius: 7px;
+  width: 35%;
+  margin: 10px 0px 10px 015px;
+  padding: 10px;
+}
+.menu {
+  display: table;
+  margin: 15px  0px 15px 20px;
+  padding: 5px 10px;
+}
+.button {
+  float: left;
+  border: 2px solid #9900CC;
+  width: 100px;
+  height: 30px;
+  margin: 0px;
+  padding: 5px;
+  text-align: center;
+}
+.button__first {
+  border-radius: 5px 0 0 5px;
+}
+.button__middle {
+  border-left: none;
+  border-right: none;
+}
+.button__last {
+  border-radius: 0 5px 5px 0;
+}
+/*# sourceMappingURL=style.css.map */

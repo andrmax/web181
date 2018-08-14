@@ -8,10 +8,8 @@ require '../../../config.php';
 global $link;
 
 if ( empty( $link ) ) {
-	$link = mysqli_connect( 'localhost', 'root', '', 'web181' );
-    mysqli_set_charset($link, 'utf8');
+	$link = mysqli_connect( 'localhost', 'root', '', 'web181(home_work)' );
+	mysqli_set_charset( $link, 'utf8' );
 }
-
-
 
 // eof
