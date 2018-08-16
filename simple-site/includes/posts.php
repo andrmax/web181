@@ -15,15 +15,42 @@ function save_post() {
 
 		if ( ! empty( $data['title'] ) && ! empty( $data['content'] ) ) {
 
-			$query = prepare_insert( array(
-				'table'  => 'posts',
-				'values' => array(
-					'title'   => $data['title'],
-					'content' => $data['content'],
-				),
-			) );
-
-			do_query( $query );
+			if ( empty( $data['id'] ) ) {
+				$query = prepare_insert( array(
+					'table'  => 'posts',
+					'values' => array(
+						'date'    => array(
+							'type'  => 'text',
+							'value' => $data['date']
+						),
+						'title'   => array(
+							'type'  => 'text',
+							'value' => $data['title']
+						),
+						'content' => array(
+							'type'  => 'text',
+							'value' => $data['content']
+						),
+					),
+				) );
+			} else {
+				$query = prepare_update( array(
+					'table'  => 'posts',
+					'values' => array(
+						'date'    => $data['date'],
+						'title'   => $data['title'],
+						'content' => $data['content'],
+					),
+					'where'  => array(
+						'id' => array(
+							'type'  => 'int',
+							'value' => $data['id'],
+						),
+					),
+				) );
+			}
+			echo $query;
+			//do_query( $query );
 
 			//header( 'location: ?event=post_saved' );
 		} else {
@@ -33,7 +60,6 @@ function save_post() {
 
 	return '';
 }
-
 
 
 function get_posts() {

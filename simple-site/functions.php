@@ -35,8 +35,9 @@ function options( $what ) {
 	}
 }
 
-require 'includes/users.php';
-require 'includes/posts.php';
+require_once 'includes/users.php';
+require_once 'includes/menu.php';
+require_once 'includes/posts.php';
 
 function init() {
 
@@ -46,16 +47,44 @@ function init() {
 		$file = $_GET['p'];
 	}
 
-	get_template( $file );
+	logout();
+	login();
+	save_post();
+
+	the_template( $file );
 }
 
-function get_template( $file ) {
+/**
+ * Получение шалона с передачей в него переменной с ключами.
+ *
+ * @param       $file
+ * @param array $data
+ *
+ * @return string
+ */
+function get_template( $file, $data = array() ) {
 	$path = project_path() . '/templates/' . $file . '.php';
 
+	$out = '';
 	if ( file_exists( $path ) ) {
+		ob_start();
 		include $path;
+		$out = ob_get_clean();
 	}
+
+	return $out;
 }
+
+/**
+ * Вывод шаблона с учетом переданных в него данных.
+ *
+ * @param       $file
+ * @param array $data
+ */
+function the_template( $file, $data = array() ) {
+	echo get_template( $file, $data );
+}
+
 
 /**
  * Функция для работы с бд.
@@ -130,6 +159,82 @@ function pagination() {
 	$out = '<nav><div class="pagination">' . implode( '', $out ) . '</div></nav>';
 
 	echo $out;
+}
+
+
+function prepare_insert( $query ) {
+	/*$query = array(
+		'table'  => '',
+		'values' => array(
+			'title'   => '',
+			'content' => '',
+		),
+		'id' => array(
+			'type'  => 'int',
+			'value' => $data['id'],
+		),
+	);*/
+	print_r( $query );
+	$query_string = array( array(), array() );
+	foreach ( $query['values'] as $key => $value ) {
+		$value['value'] = htmlspecialchars( $value['value'] );
+		switch ( $value['type'] ) {
+			case 'datetime':
+				$value['value'] = str_replace( 'T', ' ', $value['value'] );
+				$value['value'] = "'{$value['value']}'";
+				break;
+			case 'text':
+				$value['value'] = "'{$value['value']}'";
+				break;
+		}
+		$query_string[0][] = $key;
+		$query_string[1][] = $value['value'];
+	}
+
+	$query_string[0] = implode( ',', $query_string[0] );
+	$query_string[1] = implode( ',', $query_string[1] );
+
+	$query = 'INSERT INTO ' . $query['table'] . ' (' . $query_string[0] . ') VALUES (' . $query_string[1] . ')';
+	echo $query;
+
+	return $query;
+}
+
+function prepare_update( $query ) {
+	/*$query        = array(
+		'table'  => '',
+		'values' => array(
+			'title'   => '',
+			'content' => '',
+		),
+		'id' => array(
+			'type'  => 'int',
+			'value' => $data['id'],
+		),
+	);*/
+	$query_string = array();
+	foreach ( $query['values'] as $key => $value ) {
+		$value          = htmlspecialchars( $value );
+		$query_string[] = $key . '="' . $value . '"';
+	}
+
+	$condition = array();
+	foreach ( $query['where'] as $key => $value ) {
+		if ( 'int' == $value['type'] ) {
+			$condition[] = $key . '=' . $value['value'];
+		} else {
+			$condition[] = $key . '="' . $value['value'] . '"';
+		}
+
+	}
+
+	$condition    = implode( ' AND ', $condition );
+	$query_string = implode( ', ', $query_string );
+
+	$query = 'UPDATE ' . $query['table'] . ' SET ' . $query_string . ' WHERE ' . $condition;
+
+
+	return $query;
 }
 
 

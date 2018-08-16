@@ -66,11 +66,11 @@ function get_hash( $string ) {
 }
 
 function login() {
-	if ( ! empty( $_POST['event'] ) && $_POST['event'] == 'login' ) {
-		$data = $_POST;
 
+	if ( ! empty( $_REQUEST['event'] ) && $_REQUEST['event'] == 'login' ) {
+		$data = $_REQUEST;
 		setcookie( 'login_password',
-			$data['login']
+			$data['email']
 			. ';'
 			. get_hash( $data['password'] ),
 			time() + 3600,
