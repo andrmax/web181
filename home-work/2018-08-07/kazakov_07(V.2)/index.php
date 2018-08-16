@@ -5,7 +5,7 @@
  * @author Isaenko Alexey <info@oiplug.com>
  */
 header('Content-Type: text/html; charset=utf-8');
-require 'db.php';
+require '../../../db.php';
 require 'functions.php';
 //login();
 //logout();
