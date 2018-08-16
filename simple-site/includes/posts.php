@@ -20,8 +20,12 @@ function save_post() {
 					'table'  => 'posts',
 					'values' => array(
 						'date'    => array(
-							'type'  => 'text',
+							'type'  => 'datetime',
 							'value' => $data['date']
+						),
+						'name'   => array(
+							'type'  => 'text',
+							'value' => $data['title']
 						),
 						'title'   => array(
 							'type'  => 'text',
@@ -50,7 +54,7 @@ function save_post() {
 				) );
 			}
 			echo $query;
-			//do_query( $query );
+			do_query( $query );
 
 			//header( 'location: ?event=post_saved' );
 		} else {
