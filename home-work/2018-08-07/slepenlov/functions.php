@@ -189,6 +189,7 @@ function pagination()
         $out[$i] = str_replace('%caption%', '>', $out[$i]);
         $out[$i] = str_replace('%tag%', 'a', $out[$i]);
     }
+
     if ($pages >= $page + 2) {
         $out[$i + 1] = str_replace('%d%', $pages, $template);
         $out[$i + 1] = str_replace('%class%', '', $out[$i + 1]);
