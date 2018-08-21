@@ -53,10 +53,10 @@ function save_post() {
 					),
 				) );
 			}
-			echo $query;
+			//echo $query;
 			do_query( $query );
 
-			//header( 'location: ?event=post_saved' );
+				header( 'location: ?event=post_saved' );
 		} else {
 			return '<div class="error">Все поля формы должны быть заполнены</div>';
 		}

@@ -84,7 +84,7 @@ function menu(){
 		$mesne_3 = do_query( 'SELECT * FROM `menu` WHERE(pid!=0) ORDER BY `order` ASC ' );
 		while($row_2 = $mesne_3->fetch_assoc()){
 			if ($id == $row_2['pid']){
-				echo 'lf';
+
 				$buttons [$row['title']][] = $row_2['title'];
 			}
 		}
