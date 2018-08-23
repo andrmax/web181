@@ -66,45 +66,18 @@ function get_hash( $string ) {
 }
 
 function login() {
-	if ( ! empty( $_POST['event'] ) && $_POST['event'] == 'login' ) {
-		$data = $_POST;
 
+	if ( ! empty( $_REQUEST['event'] ) && $_REQUEST['event'] == 'login' ) {
+		$data = $_REQUEST;
 		setcookie( 'login_password',
-			$data['login']
+			$data['email']
 			. ';'
 			. get_hash( $data['password'] ),
 			time() + 3600,
 			'/' );
 		header( 'location: ?' );
 	}
-
 }
-
-function login_a()
-{
-    if (!empty($_POST['event_a']) && $_POST['event_a'] == 'login') {
-        $data = $_POST;
-
-        setcookie('login_password',
-            $data['login']
-            . ';'
-            . get_hash($data['password']),
-            time() + 3600,
-            '/');
-        header('location: ?');
-
-    }
-    if (!empty($_COOKIE['login_password'])) {
-        list($login, $password) = explode(';', $_COOKIE['login_password']);
-    }
-
-    if (!empty($login) && !empty($password)) {
-        //INSERT INTO `users`(`user_id`, `user_name`, `email`, `password`, `date`) VALUES ([value-1],[value-2],[value-3],[value-4],[value-5])
-
-        $result = do_query("INSERT INTO `users`(`email`, `password`)  VALUES'{$login}' AND password = '{$password}'");
-    }
-}
-
 
 function logout() {
 	if ( ! empty( $_GET['event'] ) && $_GET['event'] == 'logout' ) {
@@ -115,5 +88,7 @@ function logout() {
 		header( 'location: ?' );
 	}
 }
+
+
 
 // eof

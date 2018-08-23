@@ -15,17 +15,48 @@ function save_post() {
 
 		if ( ! empty( $data['title'] ) && ! empty( $data['content'] ) ) {
 
-			$query = prepare_insert( array(
-				'table'  => 'posts',
-				'values' => array(
-					'title'   => $data['title'],
-					'content' => $data['content'],
-				),
-			) );
-
+			if ( empty( $data['id'] ) ) {
+				$query = prepare_insert( array(
+					'table'  => 'posts',
+					'values' => array(
+						'date'    => array(
+							'type'  => 'datetime',
+							'value' => $data['date']
+						),
+						'name'   => array(
+							'type'  => 'text',
+							'value' => str2url($data['title'])
+						),
+						'title'   => array(
+							'type'  => 'text',
+							'value' => $data['title']
+						),
+						'content' => array(
+							'type'  => 'text',
+							'value' => $data['content']
+						),
+					),
+				) );
+			} else {
+				$query = prepare_update( array(
+					'table'  => 'posts',
+					'values' => array(
+						'date'    => $data['date'],
+						'title'   => $data['title'],
+						'content' => $data['content'],
+					),
+					'where'  => array(
+						'id' => array(
+							'type'  => 'int',
+							'value' => $data['id'],
+						),
+					),
+				) );
+			}
+			//echo $query;
 			do_query( $query );
 
-			//header( 'location: ?event=post_saved' );
+				header( 'location: ?event=post_saved' );
 		} else {
 			return '<div class="error">Все поля формы должны быть заполнены</div>';
 		}
@@ -33,7 +64,6 @@ function save_post() {
 
 	return '';
 }
-
 
 
 function get_posts() {
