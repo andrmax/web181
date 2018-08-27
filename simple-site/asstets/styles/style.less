@@ -1,13 +1,95 @@
-.post {
-	padding: 0 0 15px 0;
+@color__black: #000;
+@color__gray: #ccc;
+@color__white: #fff;
+
+@radius: 8px;
+
+body {
+	margin: 0;
+	padding: 0;
+	font-size: 16px;
+	font-family: sans-serif;
+}
+
+a {
+
+	&:hover, &:focus, &:active {
+		color: red;
+	}
+}
+
+.input {
+	text-decoration: none;
+	line-height: 1;
+	padding: .5em;
+	font-weight: 300;
+	color: @color__black;
+	background-color: @color__white;
+	border: 1px solid @color__black;
+	display: block;
+	box-sizing: border-box;
+	width: 100%;
+	border-radius: 3px;
+	font-size: 1em;
+
+	&:hover, &:focus, &:active {
+		border: 1px solid @color__gray;
+		outline: none;
+	}
+}
+
+.form {
+
+	&__input:extend(.input) {
+
+		&:hover:extend(.input:hover), &:focus:extend(.input:focus), &:active:extend(.input:active) {
+		}
+	}
+	&__label {
+	}
+	&__group {
+		margin: 0 0 .5em 0;
+	}
+	&__textarea:extend(.input) {
+		resize: vertical;
+		min-height: 100px;
+
+		&:hover:extend(.input:hover), &:focus:extend(.input:focus), &:active:extend(.input:active) {
+		}
+	}
+
+}
+
+.button:extend(.input) {
+	padding: .5em 2em;
+	display: inline-block;
+	width: auto;
+
+	&:hover, &:focus, &:active {
+		color: @color__white;
+		background-color: @color__black;
+		border: 1px solid @color__black;
+	}
+
+	&_success {
+		color: @color__white;
+		background-color: #00ce56;
+		border: 1px solid #00ce56;
+
+		&:hover, &:focus, &:active {
+			color: @color__white;
+			background-color: darken(#00ce56, 10%);
+			border: 1px solid darken(#00ce56, 10%);
+		}
+	}
 }
 
 .pagination {
 	margin: auto;
 	display: table;
 
-	&:before,&:after {
-		content:'';
+	&:before, &:after {
+		content: '';
 		clear: both;
 		display: block;
 	}
@@ -28,4 +110,62 @@
 			cursor: pointer;
 		}
 	}
+}
+
+.container {
+	padding: 0 2em;
+}
+
+.top-bar {
+	background-color: @color__gray;
+	padding: .5em;
+
+	&__container:extend(.container) {
+	}
+
+}
+
+.post {
+	box-shadow: 0 0 2px fade(@color__black, 10%), 0 1px 1px fade(@color__black, 10%);
+	border-radius: @radius;
+	padding: 2em;
+	margin: 0 0 1em 0;
+	position: relative;
+
+	&__title {
+		margin: 0 0 1em 0;
+		font-weight: 300;
+		text-transform: uppercase;
+		font-size: 1.4em;
+	}
+	&__content {
+		font-weight: 300;
+	}
+	&__date {
+		font-size: .8em;
+		text-align: right;
+		padding: 1em 0 0 0;
+	}
+	&__edit {
+		text-align: right;
+	}
+	&__edit-link {
+		position: absolute;
+		top: 1em;
+		right: 1em;
+		display: inline-block;
+		width: 1em;
+		text-decoration: none;
+
+		&:after {
+			display: block;
+			content: '✎';
+		}
+
+	}
+}
+
+
+@media (min-width: 600px) {
+	
 }

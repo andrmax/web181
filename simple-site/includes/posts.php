@@ -23,9 +23,9 @@ function save_post() {
 							'type'  => 'datetime',
 							'value' => $data['date']
 						),
-						'name'   => array(
+						'name'    => array(
 							'type'  => 'text',
-							'value' => $data['title']
+							'value' => translit( $data['title'] ),
 						),
 						'title'   => array(
 							'type'  => 'text',
@@ -43,6 +43,7 @@ function save_post() {
 					'values' => array(
 						'date'    => $data['date'],
 						'title'   => $data['title'],
+						'name'    => translit( $data['title'] ),
 						'content' => $data['content'],
 					),
 					'where'  => array(
@@ -56,7 +57,7 @@ function save_post() {
 			//echo $query;
 			do_query( $query );
 
-				header( 'location: ?event=post_saved' );
+			header( 'location: ?event=post_saved' );
 		} else {
 			return '<div class="error">Все поля формы должны быть заполнены</div>';
 		}
