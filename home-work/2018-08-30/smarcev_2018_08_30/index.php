@@ -15,6 +15,18 @@ $string = '<div class="ltEKP"><article class="QBXjJ M9sTE h0YNM  SgTZ1   "><head
 ';
 // 1) преобразовать шаблон, чтобы под него подходил тег A без параметров
 // 2) необходимо обернуть каждую строку в тег P
-preg_match_all("/<a\W.*?>(.*?)<\/a>/",$string,$match);
-print_r($match);
-// eof
+function cube($n){
+
+    $n="<p>".$n."</p>";
+
+    return $n;
+}
+preg_match_all("/<a\s*.*?>(.*?)<\/a>/", $string, $match);
+foreach ($match as $key=>$value){
+    $value=array_map("cube",$value);
+    foreach ($value as $key=>$value){
+        echo $value;
+    }
+}
+
+//eof
