@@ -23,8 +23,25 @@ $string = '<div class="ltEKP"><article class="QBXjJ M9sTE h0YNM  SgTZ1   "><head
 
 // 1) преобразовать шаблон, чтобы под него подходил тег A без параметров
 // 2) необходимо обернуть каждую строку в тег P
-preg_match_all("/<a\W.*?>(.*?)<\/a>/",$string,$match);
+/*preg_match_all( "/<a[\W]{0,}.*?>(.*?)<\/a>/", $string, $match );
 
-print_r($match);
 
+$string = '
+Строка 1
+Строка 2
+
+Строка 3
+';
+
+$string = preg_replace( '/(.+?)\n/',
+	"<p>$1</p>\n",
+	$string );*/
+
+
+// todo: 2-ю пару круглых скобок заменить на квадратные так, чтобы регулярка соранила работоспособность
+preg_match_all( '/(?:src|srcset)=(?:"|\')([^"\']+)/si', $string, $match );
+
+
+
+print_r( $match );
 // eof
