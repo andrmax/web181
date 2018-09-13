@@ -50,11 +50,9 @@ if(5 === num){
 }
 */
 
-/*
 for(let i = 0; i<10;i++){
 	console.log( i );
 }
-*/
 
 let mass = [ 4, 5, 3456, 75, 46 ];
 
