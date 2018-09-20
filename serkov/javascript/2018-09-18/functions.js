@@ -75,18 +75,18 @@ for ( let i in submits ) {
 }
 
 function generateTree(elem) {
-    let child = elem.firstElementChild;
-    let ul = document.createElement('ul');
-    while(child) {
-        let li = document.createElement('li');
-        li.innerHTML = child.tagName;
-        let list = generateTree(child);
-        li.appendChild(list);
-        ul.appendChild(li);
-        child = child.nextElementSibling;
+    let child = elem.firstElementChild;		// Находим дочерние элементы и передаем их в переменную child
+    let ul = document.createElement('ul');		// Создаем элемент с тегом ul и передаем его в создаваемую переменную ul
+    while(child) {								// Перебираем элементы переменной child
+        let li = document.createElement('li');	// Создаем элемент с тегом li и передаем его в создаваемую переменную li
+        li.innerHTML = child.tagName;			// Устанавливаем содержимое переменной li в виде тегов дочерних элементов из переменной child
+        let list = generateTree(child);		// Генерируем структуру (дерево) из элементов переменной child и передаем его в создаваемую переменную list
+        li.appendChild(list);					// Добавляем структуру из переменной list в переменную li
+        ul.appendChild(li);						// Добавляем структуру из переменной li в переменную ul
+        child = child.nextElementSibling;		//
     }
-    elem.appendChild(ul);
-    return ul;
+    elem.appendChild(ul);						//
+    return ul;									// Возвращаем ul в функцию
 }
 
-generateTree(document.documentElement);
+generateTree(document.documentElement);		//
