@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+	<style>
+		input {
+			width: 100%;
+			padding: 5px;
+			box-sizing: border-box;
+		}
+	</style>
+</head>
+<body>
+
+<form id="form-1" action="" class="form">
+	<div class="form__group">
+		<input type="text" class="form__control" value="simple text" name="title">
+	</div>
+	<div class="form__group">
+		<input type="number" value="32" class="form__control" name="number[]">
+		<input type="number" value="14" class="form__control" name="number[]">
+	</div>
+	<div class="form__group">
+		<input type="datetime-local" value="2018-06-05T13:45" class="form__control" name="date"></div>
+	<div class="form__group">
+		<textarea name="description" class="form__control">Lorem ipsum dolor sit amet, consectetur adipisicing elit. A assumenda deleniti dignissimos doloribus fuga fugit impedit iusto, molestias natus necessitatibus nostrum officia quaerat quis quisquam repellendus temporibus ut, velit veritatis?
+	</textarea></div>
+	<div class="form__group">
+		<label><input name="flag" type="checkbox" class="form__control"> Checkbox for checking</label></div>
+	<button class="form__submit" type="submit">OK</button>
+</form>
+
+<form id="form-2" action="" class="form">
+	<div class="form__group">
+		<input type="text" class="form__control" value="sea" name="text">
+	</div>
+	<button class="form__submit" type="submit">OK</button>
+</form>
+
+<input type="text" name="result">
+
+<script src="functions.js"></script>
+</body>
+</html>
