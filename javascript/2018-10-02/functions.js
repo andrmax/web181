@@ -104,15 +104,129 @@
 
 	}
 
-	on( 'click', '[type="submit"]', function ( event ) {
+	/*
+		on( 'click', '[type="submit"]', function ( event ) {
+			event.preventDefault();
+
+			let element                                     = event.target.closest( 'form' );
+			let url                                         = 'file.php';
+			document.querySelector( '[name=result]' ).value = url + '?' + element.serialize( 'string' );
+
+
+			let xhr = new XMLHttpRequest();
+			xhr.open( 'get', url, false );
+			xhr.send( element.serialize( 'string' ) );
+			let respose = xhr.response;
+			respose     = JSON.parse( respose );
+			console.log( respose );
+		} );
+	*/
+
+
+	/**
+	 * Функция для отправки асинхронного запроса и получения ответа
+	 *
+	 * @param options
+	 * @returns {Promise<any>}
+	 */
+	function ajax( options ) {
+		// при асинхронном запросе мы используем промисы - обещания
+		return new Promise( function ( resolve, reject ) {
+				let xhr    = new XMLHttpRequest();
+				let params = options.data;
+				let url    = options.url;
+
+				// указаны ли параметры и являются ли они объектом
+				if ( params && 'object' === typeof params ) {
+
+					// преобразование объекта в кодированную строку
+					params = Object.keys( params ).map( function ( key ) {
+						return encodeURIComponent( key ) + '=' + encodeURIComponent( params[ key ] );
+					} ).join( '&' );
+				} else {
+					params = '';
+				}
+
+				// если запрос делается не методом POST
+				if ( params && 'POST' !== options.method ) {
+					url = options.url + '?' + params;
+				}
+
+				// предварительные настройки подключения
+				xhr.open( options.method, url );
+
+				// при ответе
+				xhr.onload = function () {
+
+					// проверяем все ли хорошо
+					if ( this.status >= 200 && this.status < 300 ) {
+
+						// возвращаем результат запроса
+						resolve( xhr.response );
+					} else {
+
+						// если све плохо, возвращаем текст ошики
+						reject( {
+							status : this.status,
+							statusText : xhr.statusText
+						} );
+					}
+				};
+
+				// при отправке запроса методом POST указываем необходимый заголовок
+				if ( 'POST' === options.method ) {
+					xhr.setRequestHeader( "Content-type", "application/x-www-form-urlcoded" );
+				}
+
+				// если есть какие-то дополнительные заголовки
+				if ( options.headers ) {
+
+					// устанавливаем их
+					Object.keys( options.headers ).forEach( function ( key ) {
+						xhr.setRequestHeader( key, options.headers[ key ] );
+					} );
+				}
+
+				// совершаем запрос
+				xhr.send( params );
+			}
+		);
+	}
+
+
+	on( 'click', '.js-get-geo', function ( event ) {
 		event.preventDefault();
 
-		let element                                     = event.target.closest( 'form' );
-		let url                                         = 'http://yandex.ru/search/';
-		document.querySelector( '[name=result]' ).value = url + '?' + element.serialize( 'string' );
-		let xhr                                         = new XMLHttpRequest();
-		xhr.open( 'get', url );
-		xhr.send( element.serialize( 'string' ) );
+		// получение данных формы
+		let data = event.target.closest( 'form' ).serialize();
+
+		// вывод данных в консоль
+		console.log( data );
+
+		// отправка запроса
+		ajax( {
+			method : 'POST',
+			url : 'https://geocode-maps.yandex.ru/1.x/',
+			headers : {
+				'Access-Control-Allow-Origin' : '*',
+			},
+			data : data
+		} ).then( function ( result ) {
+			// запрос выполнен успешно
+
+			// преобразование полученных данных из строки в фомате json в объект
+			result = JSON.parse( result );
+			console.log( result );
+		} ).catch( function ( err ) {
+			// запрос выполнен не успешно
+
+			// вывод возникшей ошибки
+			if ( err.hasOwnProperty( 'statusText' ) ) {
+				console.error( 'Возникла ошибка', err.statusText );
+			} else {
+				console.error( err );
+			}
+		} );
 
 	} );
 

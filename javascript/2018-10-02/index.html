@@ -40,6 +40,44 @@
 
 <input type="text" name="result">
 
+<style>
+
+	#form-3 {
+		border: 1px solid #ccc;
+		padding: 10px;
+		width: 100%;
+		box-sizing: border-box;
+		margin: 30px 0;
+	}
+
+</style>
+
+<form id="form-3" action="" class="form">
+	<div class="form__group">
+		<input
+				type="number"
+				min="1"
+				class="form__control"
+				value="1"
+				name="post_id">
+	</div>
+	<button class="form__submit js-get-post-data" type="submit">OK</button>
+</form>
+
+<form id="form-4" action="" class="form">
+	<div class="form__group">
+		<input
+				type="text"
+				min="1"
+				class="form__control"
+				value=""
+				name="geocode">
+		<input type="hidden" name="format" value="json">
+	</div>
+	<button class="form__submit js-get-geo" type="submit">OK</button>
+</form>
+
+
 <script src="functions.js"></script>
 </body>
 </html>
