@@ -205,8 +205,48 @@
 
 		// отправка запроса
 		ajax( {
-			method : 'POST',
-			url : 'https://geocode-maps.yandex.ru/1.x/',
+			method : 'GET',
+			url : 'geocoder.php',
+			headers : {
+				'Access-Control-Allow-Origin' : '*',
+			},
+			data : data
+		} ).then( function ( result ) {
+			// запрос выполнен успешно
+
+			// преобразование полученных данных из строки в фомате json в объект
+			//result = JSON.parse( result );
+			console.log( result );
+		} ).catch( function ( err ) {
+			// запрос выполнен не успешно
+
+			// вывод возникшей ошибки
+			if ( err.hasOwnProperty( 'statusText' ) ) {
+				console.error( 'Возникла ошибка', err.statusText );
+			} else {
+				console.error( err );
+			}
+		} );
+
+	} );
+
+
+	/**
+	 * Обработка ввода адреса с последующим выводм результаов поиска
+	 */
+	on( 'keyup', '.js-get-geo1', function ( event ) {
+		event.preventDefault();
+
+		// получение данных формы
+		let data = event.target.closest( 'form' ).serialize();
+
+		// вывод данных в консоль
+		console.log( data );
+
+		// отправка запроса
+		ajax( {
+			method : 'GET',
+			url : 'geocoder.php',
 			headers : {
 				'Access-Control-Allow-Origin' : '*',
 			},
@@ -216,6 +256,61 @@
 
 			// преобразование полученных данных из строки в фомате json в объект
 			result = JSON.parse( result );
+
+			let list_element       = document.querySelector( '.js-address-list' );
+			let list               = result[ 'response' ][ 'GeoObjectCollection' ][ 'featureMember' ];
+			list_element.innerHTML = '';
+			for ( let i in list ) {
+				if ( list.hasOwnProperty( i ) ) {
+					list_element.innerHTML += '<li>' + list[ i ][ 'GeoObject' ][ 'metaDataProperty' ][ 'GeocoderMetaData' ][ 'text' ] + '</li>';
+				}
+			}
+
+			console.log( list );
+		} ).catch( function ( err ) {
+			// запрос выполнен не успешно
+
+			// вывод возникшей ошибки
+			if ( err.hasOwnProperty( 'statusText' ) ) {
+				console.error( 'Возникла ошибка', err.statusText );
+			} else {
+				console.error( err );
+			}
+		} );
+
+	} );
+
+	on( 'keyup', '.js-get-geo', function ( event ) {
+		event.preventDefault();
+
+		// получение данных формы
+		let data = event.target.closest( 'form' ).serialize();
+
+		// вывод данных в консоль
+		console.log( data );
+
+		// отправка запроса
+		ajax( {
+			method : 'GET',
+			url : 'streets.php',
+			headers : {
+				'Access-Control-Allow-Origin' : '*',
+			},
+			data : data
+		} ).then( function ( result ) {
+			// запрос выполнен успешно
+			console.log( result );
+			// преобразование полученных данных из строки в фомате json в объект
+			result = JSON.parse( result );
+
+			let list_element       = document.querySelector( '.js-address-list' );
+			list_element.innerHTML = '';
+			for ( let i in result ) {
+				if ( result.hasOwnProperty( i ) ) {
+					list_element.innerHTML += '<li>' + result[ i ] + '</li>';
+				}
+			}
+
 			console.log( result );
 		} ).catch( function ( err ) {
 			// запрос выполнен не успешно

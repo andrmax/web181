@@ -1,0 +1,79 @@
+{
+  "response": {
+    "GeoObjectCollection": {
+      "metaDataProperty": {
+        "GeocoderResponseMetaData": {
+          "request": "Москва проспект Андропова",
+          "found": "1",
+          "results": "10"
+        }
+      },
+      "featureMember": [
+        {
+          "GeoObject": {
+            "metaDataProperty": {
+              "GeocoderMetaData": {
+                "kind": "street",
+                "text": "Россия, Москва, проспект Андропова",
+                "precision": "street",
+                "Address": {
+                  "country_code": "RU",
+                  "formatted": "Москва, проспект Андропова",
+                  "Components": [
+                    {
+                      "kind": "country",
+                      "name": "Россия"
+                    },
+                    {
+                      "kind": "province",
+                      "name": "Центральный федеральный округ"
+                    },
+                    {
+                      "kind": "province",
+                      "name": "Москва"
+                    },
+                    {
+                      "kind": "locality",
+                      "name": "Москва"
+                    },
+                    {
+                      "kind": "street",
+                      "name": "проспект Андропова"
+                    }
+                  ]
+                },
+                "AddressDetails": {
+                  "Country": {
+                    "AddressLine": "Москва, проспект Андропова",
+                    "CountryNameCode": "RU",
+                    "CountryName": "Россия",
+                    "AdministrativeArea": {
+                      "AdministrativeAreaName": "Москва",
+                      "Locality": {
+                        "LocalityName": "Москва",
+                        "Thoroughfare": {
+                          "ThoroughfareName": "проспект Андропова"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Москва, Россия",
+            "name": "проспект Андропова",
+            "boundedBy": {
+              "Envelope": {
+                "lowerCorner": "37.652822 55.65147",
+                "upperCorner": "37.667573 55.702947"
+              }
+            },
+            "Point": {
+              "pos": "37.663045 55.67659"
+            }
+          }
+        }
+      ]
+    }
+  }
+}
