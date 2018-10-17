@@ -1,6 +1,37 @@
 (function () {
 	'use strict';
 
+	function tmpl( str, data ) {
+		// Figure out if we're getting a template, or if we need to
+		// load the template - and be sure to cache the result.
+		let fn = !/\W/.test( str ) ?
+			cache[ str ] = cache[ str ] ||
+				tmpl( document.getElementById( str ).innerHTML ) :
+
+			// Generate a reusable function that will serve as a template
+			// generator (and which will be cached).
+			new Function( "obj",
+				"var p=[],print=function(){p.push.apply(p,arguments);};" +
+
+				// Introduce the data as local variables using with(){}
+				"with(obj){p.push('" +
+
+				// Convert the template into pure JavaScript
+				str
+				//.toString()
+					.replace( /[\r\t\n]/g, " " )
+					.split( "<%" ).join( "\t" )
+					.replace( /((^|%>)[^\t]*)'/g, "$1\r" )
+					.replace( /\t=(.*?)%>/g, "',$1,'" )
+					.split( "\t" ).join( "');" )
+					.split( "%>" ).join( "p.push('" )
+					.split( "\r" ).join( "\\'" )
+				+ "');}return p.join('');" );
+		// Provide some basic currying to the user
+		return data ? fn( data ) : fn;
+	}
+
+
 	Object.defineProperty( Object.prototype, 'serialize', {
 		value : function ( format ) {
 			let inputs = this.querySelectorAll( '[name]' );
@@ -194,14 +225,18 @@
 	}
 
 
+	/**
+	 * При клике на элемент отправляется запрос, содержащий текст элемента
+	 * запрос к файлу geocoder.php
+	 */
 	on( 'click', '.js-get-geo', function ( event ) {
 		event.preventDefault();
 
 		// получение данных формы
-		let data = event.target.closest( 'form' ).serialize();
+		let text = event.target.innerText;
 
 		// вывод данных в консоль
-		console.log( data );
+		console.log( text );
 
 		// отправка запроса
 		ajax( {
@@ -210,12 +245,14 @@
 			headers : {
 				'Access-Control-Allow-Origin' : '*',
 			},
-			data : data
+			data : {
+				address : text,
+			}
 		} ).then( function ( result ) {
 			// запрос выполнен успешно
 
 			// преобразование полученных данных из строки в фомате json в объект
-			//result = JSON.parse( result );
+			result = JSON.parse( result );
 			console.log( result );
 		} ).catch( function ( err ) {
 			// запрос выполнен не успешно
@@ -232,55 +269,9 @@
 
 
 	/**
-	 * Обработка ввода адреса с последующим выводм результаов поиска
+	 * Обработка ввода текста в поле ввода
 	 */
-	on( 'keyup', '.js-get-geo1', function ( event ) {
-		event.preventDefault();
-
-		// получение данных формы
-		let data = event.target.closest( 'form' ).serialize();
-
-		// вывод данных в консоль
-		console.log( data );
-
-		// отправка запроса
-		ajax( {
-			method : 'GET',
-			url : 'geocoder.php',
-			headers : {
-				'Access-Control-Allow-Origin' : '*',
-			},
-			data : data
-		} ).then( function ( result ) {
-			// запрос выполнен успешно
-
-			// преобразование полученных данных из строки в фомате json в объект
-			result = JSON.parse( result );
-
-			let list_element       = document.querySelector( '.js-address-list' );
-			let list               = result[ 'response' ][ 'GeoObjectCollection' ][ 'featureMember' ];
-			list_element.innerHTML = '';
-			for ( let i in list ) {
-				if ( list.hasOwnProperty( i ) ) {
-					list_element.innerHTML += '<li>' + list[ i ][ 'GeoObject' ][ 'metaDataProperty' ][ 'GeocoderMetaData' ][ 'text' ] + '</li>';
-				}
-			}
-
-			console.log( list );
-		} ).catch( function ( err ) {
-			// запрос выполнен не успешно
-
-			// вывод возникшей ошибки
-			if ( err.hasOwnProperty( 'statusText' ) ) {
-				console.error( 'Возникла ошибка', err.statusText );
-			} else {
-				console.error( err );
-			}
-		} );
-
-	} );
-
-	on( 'keyup', '.js-get-geo', function ( event ) {
+	on( 'keyup', '.js-get-streets', function ( event ) {
 		event.preventDefault();
 
 		// получение данных формы
@@ -303,15 +294,42 @@
 			// преобразование полученных данных из строки в фомате json в объект
 			result = JSON.parse( result );
 
-			let list_element       = document.querySelector( '.js-address-list' );
-			list_element.innerHTML = '';
+			let answer = [];
 			for ( let i in result ) {
 				if ( result.hasOwnProperty( i ) ) {
-					list_element.innerHTML += '<li>' + result[ i ] + '</li>';
+
+					// если элемент полученного массива(список улиц) начинается на указанную в запросе строку
+					if ( 0 === result[ i ].toLowerCase().indexOf( data[ 'address' ].toLowerCase() ) ) {
+						// формируем новый список
+						answer.push( result[ i ] );
+					}
 				}
 			}
 
-			console.log( result );
+			// определение контейнера, в который будет вставлен список улиц
+			let list_element = document.querySelector( '.js-address-list' );
+
+			// очистка контейнера
+			list_element.innerHTML = '';
+
+			// определение шаблона
+			let temp = document.getElementById( 'address-list__item' ).innerHTML;
+
+			let list = '';
+			// перебор улиц, подошедших под введенный запрос
+			for ( let i in answer ) {
+				if ( answer.hasOwnProperty( i ) ) {
+
+					// добавляем в HTML список очередной элемент
+					list += tmpl( temp, { text : answer[ i ] } );
+				}
+			}
+
+			// вставляем список улиц в специальный контейнер
+			list_element.innerHTML = list;
+
+			console.log( answer );
+
 		} ).catch( function ( err ) {
 			// запрос выполнен не успешно
 

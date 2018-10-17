@@ -1,0 +1,42 @@
+.address-list {
+
+	position: relative;
+
+	&__control {
+		display: block;
+		box-sizing: border-box;
+		border: 1px solid #ccc;
+		width: 100%;
+		padding: 10px;
+	}
+	&__list {
+		position: absolute;
+		top: 100%;
+		left: 0;
+		margin: 0;
+		padding: 10px;
+		list-style: none;
+		border: 1px solid #ccc;
+		display: table;
+		font-size: 16px;
+		font-family: sans-serif;
+		box-shadow: 0 1px 1px rgba(0, 0, 0, .1), 0 0 2px rgba(0, 0, 0, .1);
+
+		&:empty {
+			display: none;
+		}
+	}
+
+	&__bullet {
+
+		&:before {
+			content: '✓';
+			margin-right: 10px;
+			display: block;
+			float: left;
+		}
+	}
+	&__item {
+		clear: both;
+	}
+}

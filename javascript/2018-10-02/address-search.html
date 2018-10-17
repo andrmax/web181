@@ -3,22 +3,35 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Title</title>
+	<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+<div class="address-list">
+	<form class="form">
+		<div class="form__group">
+			<input
+					type="text"
+					class="form__control address-list__control js-get-streets"
+					value=""
+					name="address">
+			<input type="hidden" name="format" value="json">
+		</div>
+	</form>
 
-<form class="form">
-	<div class="form__group">
-		<input
-				type="text"
-				class="form__control js-get-geo"
-				value=""
-				name="address">
-		<input type="hidden" name="format" value="json">
-	</div>
-</form>
-<ul class="address-list js-address-list"></ul>
+
+	<ul class="address-list__list js-address-list"></ul>
+</div>
 
 <script src="functions.js"></script>
+
+
+<script id="address-list__item" type="text/ejs">
+	<li class="address-list__item">
+		<div class="address-list__bullet"></div>
+		<div class="address-list__text js-get-geo"><%=text%></div>
+	</li>
+</script>
+
 </body>
 </html>
