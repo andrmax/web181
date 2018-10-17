@@ -1,0 +1,19 @@
+<?php
+/**
+ * Date: 09.10.18
+ * @author Isaenko Alexey <info@oiplug.com>
+ */
+
+function get_geo_data() {
+	if ( ! empty( $_REQUEST ) && ! empty( $_REQUEST['address'] ) ) {
+		$data = $_REQUEST;
+
+		$data = file_get_contents( 'https://geocode-maps.yandex.ru/1.x/?geocode=' . $data['address'] . '&format=' . $data['format'] . '' );
+
+		echo $data;
+		die();
+	}
+}
+
+get_geo_data();
+// eof
