@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+	<style>
+
+		div {
+			border: 1px solid #ccc;
+			margin-bottom: 5px;
+			padding: 5px;
+		}
+
+		.hidden {
+			display: none;
+		}
+	</style>
+</head>
+<body>
+
+<div class="box">
+	<div>text 1</div>
+	<div>text 2</div>
+	<div>text 3</div>
+</div>
+<button class="js-red">Red</button>
+<button class="js-add">Add</button>
+
+
+<div class="input-group js-example hidden">
+	<input type="text" name="item" class="input-group__control">
+		<button class="input-group__button js-remove">-</button>
+</div>
+
+<div class="items js-items">
+Тут пока пусто.
+</div>
+<button class="input-group__button js-add-item">+</button>
+
+
+
+<div class="result"></div>
+<button class="js-get-data">Get data</button>
+
+
+<button class="js-set-cookie">Set cookie</button>
+
+
+<div class="modal">Модальное окно</div>
+
+
+<form class="form" action="">
+	<input type="text" name="fio" value="Ivan Ivanovich">
+	<input type="text" name="age" value="98">
+	<input type="text" name="married" value="">
+	<button type="submit">OK</button>
+</form>
+
+
+<script src="../jquery.min.js"></script>
+<script src="functions.js"></script>
+</body>
+</html>
