@@ -9,7 +9,7 @@ function registration() {
 	$out = '';
 	if ( ! empty( $_POST['event'] ) && $_POST['event'] == 'registration' ) {
 		$data   = $_POST;
-		$result = do_query( "SELECT COUNT(*) as count FROM users WHERE email = '{$data['email']}'" );
+		$result = do_query( "SELECT COUNT(  *) as count FROM users WHERE email = '{$data['email']}'" );
 
 		$result = $result->fetch_object();
 		if ( ! empty( $result->count ) ) {
