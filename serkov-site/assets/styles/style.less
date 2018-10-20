@@ -1,0 +1,120 @@
+body {
+	font-family: sans-serif;
+	font-size: 16px;
+	background-color: #eee;
+	color: #333;
+	margin: 0;
+	padding: 0;
+}
+
+.bio {
+
+	padding: 10px;
+
+	&__photo {
+	}
+	&__image {
+		display: block;
+		width: 100%;
+		max-width: 600px;
+		margin: auto;
+	}
+	&__description {
+		padding: 10px 0;
+		line-height: 1.8;
+	}
+	&__info {
+	}
+	&__socials {
+	}
+}
+
+.columns {
+	&__row {
+		display: block;
+		&:before, &:after {
+			display: block;
+			content: '';
+			clear: both;
+		}
+	}
+	&__label, &__value {
+		display: block;
+		float: left;
+		width: 50%;
+		box-sizing: border-box;
+		border-bottom: 1px dashed #ccc;
+		line-height: 2;
+	}
+	&__label {
+		font-weight: bold;
+	}
+	&__value {
+		text-align: right;
+	}
+}
+
+.social {
+
+	display: block;
+
+	&:before, &:after {
+		display: block;
+		content: '';
+		clear: both;
+	}
+
+	&__link {
+		float: left;
+		width: 64px;
+		height: 64px;
+		margin: 0 4px;
+		text-align: center;
+		border: 3px solid #ccc;
+		border-radius: 5px;
+	}
+}
+
+.resume {
+	padding: 10px;
+
+	&__row {
+		padding-bottom: 10px;
+
+		&:before, &:after {
+			display: block;
+			content: '';
+			clear: both;
+		}
+	}
+	&__period {
+		font-weight: bold;
+	}
+	&__position {
+	}
+	&__location {
+	}
+}
+
+.menu {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	display: table;
+	width: 100%;
+	line-height: 1;
+	background-color: #000;
+
+	&__item {
+		display: table-cell;
+		vertical-align: middle;
+	}
+	&__link {
+		display: block;
+		padding: 10px;
+		text-align: center;
+		color: #ccc;
+		text-decoration: none;
+		text-transform: uppercase;
+	}
+}
