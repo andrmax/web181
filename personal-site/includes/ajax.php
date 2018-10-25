@@ -41,6 +41,7 @@ function update_profile() {
 
 		if ( ! empty( $error ) ) {
 			send_json_error( $error );
+
 		}else{
 
 			send_json_success();
