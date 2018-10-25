@@ -12,12 +12,12 @@ body {
 .bio__image {
   display: block;
   width: 100%;
-  max-width: 600px;
+  max-width: 400px;
   margin: auto;
 }
 .bio__description {
-  padding: 10px 0;
   line-height: 1.8;
+  padding: 10px 0;
 }
 .columns__row {
   display: block;
@@ -61,9 +61,6 @@ body {
   border: 3px solid #ccc;
   border-radius: 5px;
 }
-.resume {
-  padding: 10px;
-}
 .resume__row {
   padding-bottom: 10px;
 }
@@ -83,7 +80,7 @@ body {
   display: table;
   width: 100%;
   line-height: 1;
-  background-color: #000;
+  background-color: #006666;
 }
 .menu__item {
   display: table-cell;
@@ -93,7 +90,7 @@ body {
   display: block;
   padding: 10px;
   text-align: center;
-  color: #ccc;
+  color: #33FFCC;
   text-decoration: none;
   text-transform: uppercase;
 }

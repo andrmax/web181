@@ -32,7 +32,7 @@ $socials = implode( "\n", $socials );
 	</div>
 	<div class="bio__description"><?php echo $data['bio']; ?></div>
 	<div class="bio__info">
-		<?php echo $data['colu']; ?>
+<!--		--><?php /*echo $data['colu']; */?>
 		<div class="columns">
 			<?php echo $meta; ?>
 		</div>
