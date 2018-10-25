@@ -4,6 +4,7 @@
  * @author Isaenko Alexey <info@oiplug.com>
  */
 
+include 'db.php';
 include 'functions.php';
 include 'templates/header.php';
 include 'templates/profile-edit.php';

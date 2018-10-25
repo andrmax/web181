@@ -206,6 +206,35 @@
 		);
 	}
 
+	/**
+	 * Функция вывода сообщения, которое пропадает
+	 * через определенное время
+	 *
+	 * @param message
+	 * @param timeout
+	 * @param selector
+	 */
+	function timeless_message( message, timeout, selector ) {
+		if ( undefined === selector ) {
+			selector = '.js-info-block';
+		}
+		if ( undefined === timeout ) {
+			timeout = 5000;
+		} else {
+			timeout *= 1000;
+		}
+
+		let element = document.querySelector( selector );
+
+
+		let p       = document.createElement( 'p' );
+		p.innerHTML = message;
+		element.appendChild( p );
+
+		setTimeout( function () {
+			p.parentNode.removeChild( p );
+		}, timeout );
+	}
 
 	/**
 	 * Обработка ввода текста в поле ввода
@@ -219,7 +248,7 @@
 
 		// вывод данных в консоль
 		console.log( data );
-
+		timeless_message( 'Данные отправляются...', 5, '.js-form__info' );
 		// отправка запроса
 		ajax( {
 			method : 'GET',
@@ -236,7 +265,11 @@
 			console.log( result );
 
 			if ( result.hasOwnProperty( 'success' ) && true === result[ 'success' ] ) {
-				form.querySelector( '.js-form__info' ).innerHTML = 'Данные сохранены';
+
+				setTimeout( function () {
+					timeless_message( 'Данные сохранены', 5, '.js-form__info' );
+				}, 2000 );
+
 			}
 
 		} ).catch( function ( err ) {

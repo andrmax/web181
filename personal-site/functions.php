@@ -4,39 +4,62 @@
  * @author Isaenko Alexey <info@oiplug.com>
  */
 
+function do_query( $query ) {
+	global $link;
+
+	$result = mysqli_query( $link, $query );
+
+	if ( $error = mysqli_error( $link ) ) {
+		print_r( $error );
+	}
+
+	return $result;
+}
+
+/**
+ * perform - ключ, который указывает на то, какой тип данных у данной переменной, чтобы правильно сохранить их в БД,
+ * варианты: d - целые числа f - числа с точкой s - все остальное
+ * @return array
+ */
 function fields_profile() {
 	$fields = array(
 		'fio'           => array(
 			'label'    => 'Имя и Фамилия',
+			'perform'  => 's',
 			'type'     => 'text',
 			'class'    => 'form__controll',
 			'required' => 1,
 		),
 		'bio'           => array(
-			'label' => 'Биография',
-			'type'  => 'text',
-			'class' => 'form__controll',
+			'label'   => 'Биография',
+			'perform' => 's',
+			'type'    => 'text',
+			'class'   => 'form__controll',
 		),
 		'birthday'      => array(
-			'label' => 'ДР',
-			'type'  => 'datetime-local',
-			'class' => 'form__controll',
+			'label'   => 'ДР',
+			'perform' => 's',
+			'type'    => 'datetime-local',
+			'class'   => 'form__controll',
 		),
 		'email'         => array(
 			'label'    => 'Email',
+			'perform'  => 's',
 			'type'     => 'text',
 			'class'    => 'form__controll',
 			'required' => 1,
 		),
 		'phone'         => array(
-			'label' => 'Телефон',
-			'type'  => 'text',
-			'class' => 'form__controll',
+			'label'   => 'Телефон',
+			'perform' => 's',
+			'type'    => 'text',
+			'class'   => 'form__controll',
 		),
-		'meta[vk_link]' => array(
-			'label' => 'Ссылка VK',
-			'type'  => 'text',
-			'class' => 'form__controll',
+		'users-meta[vk_link]' => array(
+			'label'   => 'Ссылка VK',
+			'perform' => 's',
+			'type'    => 'text',
+			'class'   => 'form__controll',
 		),
 	);
 
