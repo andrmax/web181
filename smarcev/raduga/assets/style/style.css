@@ -1,0 +1,37 @@
+.colors {
+  background: #84cbff;
+  width: 100%;
+}
+.colors__first {
+  margin: 0;
+  padding: 10px;
+  width: 100%;
+}
+.cf__red {
+  background: darkred;
+}
+.cf__blue {
+  background: darkblue;
+}
+.cf__green {
+  background: darkgreen;
+}
+.colors__select {
+  border: black 1px;
+  margin-left: 25%;
+  width: 50%;
+  height: 50%;
+}
+button {
+  margin: 5px;
+  width: 25%;
+}
+.js_isp {
+  margin: 10px 0 10px 0;
+  background: yellowgreen;
+}
+.php_f {
+  margin: 10px 0 10px 0;
+  background: darkorange;
+}
+/*# sourceMappingURL=style.css.map */
