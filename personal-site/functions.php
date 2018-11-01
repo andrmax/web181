@@ -3,6 +3,7 @@
  * Date: 18.10.18
  * @author Isaenko Alexey <info@oiplug.com>
  */
+global $link;
 
 function do_query( $query ) {
 	global $link;
@@ -10,7 +11,7 @@ function do_query( $query ) {
 	$result = mysqli_query( $link, $query );
 
 	if ( $error = mysqli_error( $link ) ) {
-		print_r( $error );
+		return $error ;
 	}
 
 	return $result;
@@ -55,7 +56,7 @@ function fields_profile() {
 			'type'    => 'text',
 			'class'   => 'form__controll',
 		),
-		'users-meta[vk_link]' => array(
+		'usermeta[vk_link]' => array(
 			'label'   => 'Ссылка VK',
 			'perform' => 's',
 			'type'    => 'text',
