@@ -104,7 +104,7 @@ function update_profile() {
 			}
 			$query[ $table_name ] = '';
 		}
-		//send_json_success( $insert);
+
 		// если в процессе возникли ошибки
 		if ( ! empty( $error ) ) {
 
@@ -112,70 +112,95 @@ function update_profile() {
 			send_json_error( $error );
 
 		} else {
+
+			// перебор имен таблиц в которые будет происходить запись
 			foreach ( $query as $table_name => $data ) {
 
+				// если текущее имя таблицы присутствует в массиве
 				if ( in_array( $table_name, array( 'users', ) ) ) {
-					// проверяем на существование хоть какой-то записи в указанной таблице
-					//$result = do_query( 'SELECT COUNT(*) FROM `' . $table_name . '`' );
 
-					update_user( array(
+					// производим сохранение обязательных данных пользователя
+					$result = update_user( array(
 						'keys'   => $insert[ $table_name ][0],
 						'values' => $insert[ $table_name ][1],
 					), $update );
 
+					// если возникла ошибка
+					if ( false == $result ) {
+
+						// добавлеям текст ошибки к списку ошибок
+						$error[] = 'Данные пользователя не добавились в БД.';
+					}
 				} else {
 
 					// идет перебор мета-данных
 					foreach ( $insert[ $table_name ][0] as $i => $meta_key ) {
 
 						// добавление мета-данных пользователя
-						update_user_meta( $meta_key, $insert[ $table_name ][1][ $i ] );
+						$result = update_user_meta( $meta_key, $insert[ $table_name ][1][ $i ] );
 
+						// если возникла ошибка
+						if ( false == $result ) {
+
+							// добавлеям текст ошибки к списку ошибок
+							$error[] = 'Метаданные с ключом ' . $meta_key . ' не добавились в БД.';
+						}
 					}
-
 				}
-
-				// если записей не найдено
-				if ( empty( $result ) ) {
-
-					// преобразовываем ключи и значения в строки
-					$insert[ $table_name ][0] = implode( ', ', $insert[ $table_name ][0] );
-					$insert[ $table_name ][1] = implode( ', ', $insert[ $table_name ][1] );
-
-					// составляем запрос
-					$query[ $table_name ] = 'INSERT INTO `' . $table_name . '` (' . $insert[ $table_name ][0] . ')VALUES (' . $insert[ $table_name ][1] . ')';
-
-
-				} else {
-					$update[ $table_name ] = implode( ', ', $update[ $table_name ] );
-					$query[ $table_name ]  = 'UPDATE `' . $table_name . '` SET ' . $update[ $table_name ];
-				}
-
-				// выполняем запрос
-				do_query( $query[ $table_name ] );
 			}
-			send_json_success( $query );
+
+			// если есть ошибки
+			if ( ! empty( $error ) ) {
+
+				// отправляем список ошибок и флаг success: false
+				send_json_error( $error );
+
+			} else {
+
+				// отправляем флаг success: true
+				send_json_success();
+			}
 		}
 
 
 	}
 }
 
+
+
+/**
+ * Функция обновления обязательных данных пользователя
+ *
+ * @param $insert
+ * @param $update
+ *
+ * @return bool|mysqli_result|string
+ */
 function update_user( $insert, $update ) {
 
-	$query  = 'SELECT COUNT(*) FROM `users`';
+	// проверка на наличае хоть каких-то данных
+	/*$query  = 'SELECT COUNT(*) FROM `users`';
 	$result = do_query( $query );
+	$result = (int) $result->fetch_row()[0];*/
 
-	if ( empty( $result ) ) {
+	// если данных нет
+	//if ( empty( $result ) )
+	{
+
+		// формируем запрос на добавление
 		$insert['keys']   = implode( ', ', $insert['keys'] );
 		$insert['values'] = implode( ', ', $insert['values'] );
 		$query            = 'INSERT INTO `users` (' . $insert['keys'] . ')VALUES (' . $insert['values'] . ')';
-	} else {
+	}/* else {
+
+		$user_id = <функция получения id пользователя>;
+		// если данные есть, обновляем их
 		$update = implode( ', ', $update );
-		$query  = 'UPDATE `users` SET ' . $update;
-	}
+		$query  = 'UPDATE `users` SET ' . $update . ' WHERE id = '.$user_id;
+	}*/
+
 	//send_json_success( $query );
-	do_query( $query );
+	return do_query( $query );
 }
 
 
@@ -184,24 +209,34 @@ function update_user( $insert, $update ) {
  *
  * @param $meta_key
  * @param $meta_value
+ *
+ * @return bool|mysqli_result|string
  */
 function update_user_meta( $meta_key, $meta_value ) {
+
+	// проверка на существование записи с указанными параметрами
 	$query  = 'SELECT COUNT(*) FROM `usermeta` WHERE `key` = ' . $meta_key;
 	$result = do_query( $query );
-	send_json_success( [$query,$result->num_rows] );
-	if ( ! empty( $result ) ) {
-		$query = "UPDATE `usermeta` SET `value` = '{$meta_value}' WHERE `key` = '{$meta_key}'";
-	} else {
-		$query = "INSERT INTO `usermeta`  (`key`,`value`)VALUES({$meta_key},{$meta_value})";
+	$result = (int) $result->fetch_row()[0];
 
+	// если запись существует
+	if ( ! empty( $result ) ) {
+
+		// запрос н аобновление
+		$query = "UPDATE `usermeta` SET `value` = {$meta_value} WHERE `key` = {$meta_key}";
+	} else {
+
+		// запрос на добавление
+		$query = "INSERT INTO `usermeta`  (`key`,`value`)VALUES({$meta_key},{$meta_value})";
 	}
 
-	// fixme: сделать проверку на корректность запроса, тк он не отрабатывает
-	$result = do_query( $query );
-	send_json_success( [$query,$result] );
+	// возврат результата выполнения запроса
+	return do_query( $query );
 }
 
-
+/**
+ * Функция отслеживания ajax запросов
+ */
 function ajax_request() {
 	if ( ! empty( $_REQUEST['action'] ) && function_exists( $_REQUEST['action'] ) ) {
 

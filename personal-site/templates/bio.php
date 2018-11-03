@@ -1,43 +1,52 @@
 <?php
-$data = get_user();
+$data = fields_profile();
 
-$columns = array();
+$meta = array();
+$bio  = array();
+foreach ( $data as $key => $value ) {
+	if ( false !== strpos( $key, 'usermeta' ) ) {
+		if ( ! empty( $value['value'] ) ) {
+			$meta[] = '<div class="columns__row"><div class="columns__label">' . $value['label'] . '</div><div class="columns__value">' . $value['value'] . '</div></div>';
+		}
+	} else {
+		if ( ! empty( $value['value'] ) ) {
+			switch ( $key ) {
+				case 'fio':
+					$bio[] = '<h1>' . $value['value'] . '</h1>';
+					break;
+				case 'bio':
+					$bio[] = '<p>' . $value['value'] . '</p>';
+					break;
+				default:
+					switch ( $key ) {
+						case 'birthday':
+							$value['value'] = date( 'd.m.Y', strtotime( $value['value'] ) );
+							break;
+						case 'email':
+							if ( false !== strpos( $value['value'], '@' ) ) {
+								$value['value'] = '<a href="mailto:' . $value['value'] . '">' .
+								                  $value['value'] . '</a>';
+							}
 
-$fields = array(
-	'dob'     => 'Дата рождения',
-	'address' => 'Адрес',
-	'phone'   => 'Телефон',
-	'email'   => 'Email',
-	'site'    => 'Сайт',
-);
-$meta   = array();
-foreach ( $fields as $key => $value ) {
-	if ( ! empty( $data['meta'][ $key ] ) ) {
-		$meta[] = '<div class="columns__row"><div class="columns__label">' . $value . '</div><div class="columns__value">' . $data['meta'][ $key ] . '</div></div>';
+							break;
+					}
+
+					$meta[] = '<div class="columns__row"><div class="columns__label">' . $value['label'] . '</div><div class="columns__value">' . $value['value'] . '</div></div>';
+			}
+		}
 	}
 }
 $meta = implode( "\n", $meta );
-$socials   = array();
-foreach ( $fields as $key => $value ) {
-	if ( ! empty( $data['meta'][ $key ] ) ) {
-		$socials[] = '<a class="social__link">'. $data['meta'][ $key ] . '</a>';
-	}
-}
-$socials = implode( "\n", $socials );
-
+$bio  = implode( "\n", $bio );
 ?>
 <div class="bio">
 	<div class="bio__photo">
-		<?php echo $data['image']; ?>
+		<?php //echo $data['image']; ?>
 	</div>
-	<div class="bio__description"><?php echo $data['bio']; ?></div>
+	<div class="bio__description"><?php echo $bio; ?></div>
 	<div class="bio__info">
-		<?php echo $data['colu']; ?>
 		<div class="columns">
 			<?php echo $meta; ?>
 		</div>
-	</div>
-	<div class="bio__socials">
-		<div class="socials"><?php echo $meta; ?></div>
 	</div>
 </div>

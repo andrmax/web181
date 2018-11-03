@@ -5,13 +5,38 @@
  */
 global $link;
 
+define( 'SECRET', 'vnrlsotnkNJKflkb56bjjbf' );
+
+function is_admin() {
+
+	$password = '123';
+
+	$hash = md5( $password . SECRET );
+
+	if ( ( ! empty( $_REQUEST['pass'] ) && md5( $_REQUEST['pass'] . SECRET ) == $hash ) || ( ! empty( $_COOKIE['hash'] ) && $_COOKIE['hash'] == $hash ) ) {
+
+		setcookie( 'hash', $hash, time() + 3600, '/' );
+
+		return true;
+	}
+
+	return false;
+}
+
+
+function pr( $data ) {
+	echo '<pre>';
+	print_r( $data );
+	echo '</pre>';
+}
+
 function do_query( $query ) {
 	global $link;
 
 	$result = mysqli_query( $link, $query );
 
 	if ( $error = mysqli_error( $link ) ) {
-		return $error ;
+		return $error;
 	}
 
 	return $result;
@@ -23,34 +48,38 @@ function do_query( $query ) {
  * @return array
  */
 function fields_profile() {
+
+	$values = get_last_user_data();
+	$values = array_merge( $values, get_user_meta() );
+
 	$fields = array(
-		'fio'           => array(
+		'fio'               => array(
 			'label'    => 'Имя и Фамилия',
 			'perform'  => 's',
 			'type'     => 'text',
 			'class'    => 'form__controll',
 			'required' => 1,
 		),
-		'bio'           => array(
+		'bio'               => array(
 			'label'   => 'Биография',
 			'perform' => 's',
 			'type'    => 'text',
 			'class'   => 'form__controll',
 		),
-		'birthday'      => array(
+		'birthday'          => array(
 			'label'   => 'ДР',
 			'perform' => 's',
-			'type'    => 'datetime-local',
+			'type'    => 'date',
 			'class'   => 'form__controll',
 		),
-		'email'         => array(
+		'email'             => array(
 			'label'    => 'Email',
 			'perform'  => 's',
 			'type'     => 'text',
 			'class'    => 'form__controll',
 			'required' => 1,
 		),
-		'phone'         => array(
+		'phone'             => array(
 			'label'   => 'Телефон',
 			'perform' => 's',
 			'type'    => 'text',
@@ -62,9 +91,56 @@ function fields_profile() {
 			'type'    => 'text',
 			'class'   => 'form__controll',
 		),
+		'usermeta[fb_link]' => array(
+			'label'   => 'Ссылка Facebook',
+			'perform' => 's',
+			'type'    => 'text',
+			'class'   => 'form__controll',
+		),
 	);
 
+	foreach ( $values as $key => $value ) {
+		if ( ! empty( $fields[ $key ] ) ) {
+			$fields[ $key ]['value'] = $value;
+		}
+	}
+
+	if ( empty( $fields['birthday']['value'] ) || '0000-00-00' == $fields['birthday']['value'] ) {
+		$fields['birthday']['value'] = date( 'Y-m-d' );
+	}
+
 	return $fields;
+}
+
+/**
+ * Получение последней редакции данных пользователя
+ *
+ * @return array
+ */
+function get_last_user_data() {
+	$query  = 'SELECT * FROM `users` ORDER BY id DESC LIMIT 1';
+	$result = do_query( $query );
+	$result = $result->fetch_assoc();
+
+	if ( empty( $result ) ) {
+		$result = array();
+	}
+
+	return $result;
+}
+
+function get_user_meta() {
+	$query   = 'SELECT * FROM `usermeta`';
+	$result  = do_query( $query );
+	$respose = array();
+	while ( $row = $result->fetch_assoc() ) {
+		if ( ! empty( $row ) ) {
+			$key             = 'usermeta[' . $row['key'] . ']';
+			$respose[ $key ] = $row['value'];
+		}
+	}
+
+	return ( $respose );
 }
 
 
