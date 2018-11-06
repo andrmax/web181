@@ -12,7 +12,9 @@
 
 
 <ul class="menu">
-	<li class="menu__item"><a href="#main" class="menu__link">Главная</a></li>
-	<li class="menu__item"><a href="#resume" class="menu__link">Резюме</a></li>
+	<li class="menu__item"><a href="?form=profile" class="menu__link">Главная</a></li>
+	<li class="menu__item"><a href="?form=resume" class="menu__link">Резюме</a></li>
 	<li class="menu__item"><a href="#resume" class="menu__link">Опыт</a></li>
 </ul>
+
+<?php echo get_form(); ?>

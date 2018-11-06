@@ -44,65 +44,67 @@ function update_profile() {
 		// делаем перебор полей, определенных в специальном массиве
 		foreach ( $fields as $key => $value ) {
 
-			// если поле является обязательным для заполнения
-			if ( ! empty( $value['required'] ) && empty( $data[ $key ] ) ) {
+			if ( 'action' != $key ) {
+				// если поле является обязательным для заполнения
+				if ( ! empty( $value['required'] ) && empty( $data[ $key ] ) ) {
 
-				// добавляем информацию об этом в список ошибок
-				$error[] = 'Поле "' . $value['label'] . '" должно быть заполнено!';
-			}
-
-
-			// ищем в ключе все составляющие(слова)
-			preg_match_all( '/([^\[\]]+)/i', $key, $match );
-
-			// добавляем найденные составляющие ключа в общий список(это для тестирования)
-			$matches[] = $match;
-
-			// если ключ имеет менее 2-х составляющих
-			if ( 1 == sizeof( $match[1] ) ) {
-
-				// указываем стандартное имя таблицы
-				$table_name = 'users';
-			} else {
-
-				// указываем имя таблицы в соответствии с первой составляющей ключа
-				$table_name = $match[1][0];
-			}
-
-			if ( empty( $insert[ $table_name ] ) ) {
-				$insert[ $table_name ] = array( array(), array(), );
-			}
-
-			// если массивы с ключами и значениями для добавления в бд не определены
-			/*if ( empty( $insert[$table_name][0] ) ) {
-
-				// определяем
-				$insert[$table_name][0] = ;
-				$insert[$table_name][1] = array();
-			}*/
-
-
-			// если ключ имеет менее 2-х составляющих
-			if ( sizeof( $match[1] ) < 2 ) {
-
-				// добавляем ключ в список ключей для отправки в бд(при создании записи)
-				$insert[ $table_name ][0][] = $key;
-
-				// добавляем в список значение с правильным синтаксисом
-				if ( 's' == $value['perform'] ) {
-					$insert[ $table_name ][1][] = "'" . $data[ $key ] . "'";
-					$update[ $table_name ][]    = $key . "='" . $data[ $key ] . "'";
-				} else {
-					$insert[ $table_name ][1][] = $data[ $key ];
-					$update[ $table_name ][]    = $key . '=' . $data[ $key ];
+					// добавляем информацию об этом в список ошибок
+					$error[] = 'Поле "' . $value['label'] . '" должно быть заполнено!';
 				}
 
 
-			} else {
-				$insert[ $table_name ][0][] = "'" . $match[1][1] . "'";
-				$insert[ $table_name ][1][] = "'" . $data[ $match[1][0] ][ $match[1][1] ] . "'";
+				// ищем в ключе все составляющие(слова)
+				preg_match_all( '/([^\[\]]+)/i', $key, $match );
+
+				// добавляем найденные составляющие ключа в общий список(это для тестирования)
+				$matches[] = $match;
+
+				// если ключ имеет менее 2-х составляющих
+				if ( 1 == sizeof( $match[1] ) ) {
+
+					// указываем стандартное имя таблицы
+					$table_name = 'users';
+				} else {
+
+					// указываем имя таблицы в соответствии с первой составляющей ключа
+					$table_name = $match[1][0];
+				}
+
+				if ( empty( $insert[ $table_name ] ) ) {
+					$insert[ $table_name ] = array( array(), array(), );
+				}
+
+				// если массивы с ключами и значениями для добавления в бд не определены
+				/*if ( empty( $insert[$table_name][0] ) ) {
+
+					// определяем
+					$insert[$table_name][0] = ;
+					$insert[$table_name][1] = array();
+				}*/
+
+
+				// если ключ имеет менее 2-х составляющих
+				if ( sizeof( $match[1] ) < 2 ) {
+
+					// добавляем ключ в список ключей для отправки в бд(при создании записи)
+					$insert[ $table_name ][0][] = $key;
+
+					// добавляем в список значение с правильным синтаксисом
+					if ( 's' == $value['perform'] ) {
+						$insert[ $table_name ][1][] = "'" . $data[ $key ] . "'";
+						$update[ $table_name ][]    = $key . "='" . $data[ $key ] . "'";
+					} else {
+						$insert[ $table_name ][1][] = $data[ $key ];
+						$update[ $table_name ][]    = $key . '=' . $data[ $key ];
+					}
+
+
+				} else {
+					$insert[ $table_name ][0][] = "'" . $match[1][1] . "'";
+					$insert[ $table_name ][1][] = "'" . $data[ $match[1][0] ][ $match[1][1] ] . "'";
+				}
+				$query[ $table_name ] = '';
 			}
-			$query[ $table_name ] = '';
 		}
 
 		// если в процессе возникли ошибки
@@ -165,7 +167,6 @@ function update_profile() {
 
 	}
 }
-
 
 
 /**
@@ -248,5 +249,59 @@ function ajax_request() {
 
 ajax_request();
 
+
+function update_resume() {
+	if ( ! empty( $_REQUEST ) ) {
+		$data = $_REQUEST;
+
+		$fields = fields_resume();
+
+		$update = array();
+		$insert = array(
+			array(),
+			array(),
+		);
+
+		foreach ( $fields as $key => $field ) {
+			if ( 'action' != $key ) {
+
+				if ( ( empty( $data[ $key ] ) && 'resume_id' != $key ) || ! empty( $data[ $key ] ) ) {
+
+					$insert[0][] = "`$key`";
+					if ( 's' == $field['perform'] ) {
+						$insert[1][] = "'" . $data[ $key ] . "'";
+						$update[]    = "`$key`='{$data[$key]}'";
+					} else {
+						$insert[1][] = $data[ $key ];
+						$update[]    = "`$key`={$data[$key]}";
+					}
+				}
+			}
+		}
+
+		$update    = implode( ', ', $update );
+		$insert[0] = implode( ', ', $insert[0] );
+		$insert[1] = implode( ', ', $insert[1] );
+
+		// если запись существует
+		if ( ! empty( $data['resume_id'] ) ) {
+
+			// запрос н аобновление
+			$query = "UPDATE `resume` SET {$update} WHERE `resume_id` = {$data['resume_id']}";
+		} else {
+
+			// запрос на добавление
+			$query = "INSERT INTO `resume`  ({$insert[0]})VALUES({$insert[1]})";
+		}
+
+		//
+		// возврат результата выполнения запроса
+		do_query( $query );
+
+		// todo: получить только что добавленный id, чтобы вернуть его в форму
+		$id = 3;
+		send_json_success( array( 'id' => $id ) );
+	}
+}
 
 // eof

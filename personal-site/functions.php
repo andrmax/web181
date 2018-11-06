@@ -32,14 +32,68 @@ function pr( $data ) {
 
 function do_query( $query ) {
 	global $link;
-
 	$result = mysqli_query( $link, $query );
+
 
 	if ( $error = mysqli_error( $link ) ) {
 		return $error;
 	}
 
 	return $result;
+}
+
+function get_form() {
+	if ( ! empty( $_GET['form'] ) ) {
+		ob_start();
+		if ( is_admin() ) {
+			$function_name = 'fields_' . $_GET['form'];
+			$fields        = $function_name();
+			$out           = show_fields( $fields );
+
+			include 'templates/form-' . $_GET['form'] . '.php';
+
+		} else {
+			include 'templates/auth.php';
+		}
+
+		return ob_get_clean();
+	}
+
+	return '';
+}
+
+/**
+ * Формирование списка полей формы по заданным параметрам
+ *
+ * @param $fields
+ *
+ * @return array|string
+ */
+function show_fields( $fields ) {
+	$out = array();
+	foreach ( $fields as $key => $field ) {
+
+		$value    = ! empty( $field['value'] ) ? $field['value'] : '';
+		$required = ! empty( $field['required'] ) ? ' required="required"' : '';
+		$html     = '';
+
+		if ( 'hidden' != $field['type'] ) {
+			$html .= '<div class="form__group">';
+		}
+		if ( ! empty( $field['label'] ) && 'hidden' != $field['type'] ) {
+			$html .= '<label for="' . $key . '" class="form__label">' . $field['label'] . '</label>';
+		}
+		$html .= '<input id="' . $key . '" type="' . $field['type'] . '" class="form__control" name="' . $key . '" value="' . $value . '"' . $required . '>';
+
+		if ( 'hidden' != $field['type'] ) {
+			$html .= '</div>';
+		}
+
+		$out[] = $html;
+	}
+	$out = implode( "\n", $out );
+
+	return $out;
 }
 
 /**
@@ -53,6 +107,10 @@ function fields_profile() {
 	$values = array_merge( $values, get_user_meta() );
 
 	$fields = array(
+		'action'            => array(
+			'value' => 'update_profile',
+			'type'  => 'hidden',
+		),
 		'fio'               => array(
 			'label'    => 'Имя и Фамилия',
 			'perform'  => 's',
@@ -144,29 +202,6 @@ function get_user_meta() {
 }
 
 
-function get_user() {
-
-
-	$data = array(
-		'image' => '<img src="assets/images/photo.png" alt="" class="bio__image">',
-		'bio'   => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid dignissimos dolorum enim eveniet, exercitationem, hic ipsa iure laboriosam laborum maiores omnis, placeat possimus quibusdam quod veritatis! Doloribus eaque exercitationem voluptatem?',
-		'meta'  => array(
-			'dob'      => 1920,
-			'address'  => 'Moscow',
-			'phone'    => '+7 (903) 123 45 67',
-			'email'    => 'minita@yandex.ru',
-			'site'     => 'minita.ru',
-			'vk_link'  => 'https://vk.com/minita.ru',
-			'vk_image' => '',
-			'fb_link'  => 'https://facebook.com/minitaru',
-			'fb_image' => '',
-		),
-	);
-
-	return $data;
-}
-
-
 function get_resume() {
 
 
@@ -198,6 +233,68 @@ function get_resume() {
 }
 
 
+function fields_resume() {
+
+	/*$values = get_last_user_data();
+	$values = array_merge( $values, get_user_meta() );*/
+
+	$fields = array(
+		'action'      => array(
+			'value' => 'update_resume',
+			'type'  => 'hidden',
+		),
+		'resume_id'   => array(
+			'perform' => 'd',
+			'type'    => 'hidden',
+		),
+		'start'       => array(
+			'label'    => 'Дата начала работы',
+			'perform'  => 's',
+			'type'     => 'date',
+			'class'    => 'form__controll',
+			'required' => 1,
+			'value' => date('Y-m-d'),
+		),
+		'end'         => array(
+			'label'    => 'Дата окончания работы',
+			'perform'  => 's',
+			'type'     => 'date',
+			'class'    => 'form__controll',
+			'required' => 1,
+			'value' => date('Y-m-d'),
+		),
+		'position'    => array(
+			'label'   => 'Должность',
+			'perform' => 's',
+			'type'    => 'text',
+			'class'   => 'form__controll',
+		),
+		'location'    => array(
+			'label'   => 'Расположение',
+			'perform' => 's',
+			'type'    => 'text',
+			'class'   => 'form__controll',
+		),
+		'description' => array(
+			'label'    => 'Описание',
+			'perform'  => 's',
+			'type'     => 'text',
+			'class'    => 'form__controll',
+		),
+	);
+
+	/*foreach ( $values as $key => $value ) {
+		if ( ! empty( $fields[ $key ] ) ) {
+			$fields[ $key ]['value'] = $value;
+		}
+	}*/
+
+	if ( empty( $fields['start']['value'] ) || '0000-00-00' == $fields['start']['value'] ) {
+		$fields['start']['value'] = date( 'Y-m-d' );
+	}
+
+	return $fields;
+}
 
 
 

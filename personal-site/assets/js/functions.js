@@ -239,7 +239,7 @@
 	/**
 	 * Обработка ввода текста в поле ввода
 	 */
-	on( 'submit', '.js-form-profile', function ( event ) {
+	on( 'submit', '.js-form-submit', function ( event ) {
 		event.preventDefault();
 
 		let form = event.target;
@@ -265,6 +265,8 @@
 			console.log( result );
 
 			if ( result.hasOwnProperty( 'success' ) && true === result[ 'success' ] ) {
+
+				form.querySelector( '[name=resume_id]' ).value = result.data['id'];
 
 				setTimeout( function () {
 					timeless_message( 'Данные сохранены', 5, '.js-form__info' );
