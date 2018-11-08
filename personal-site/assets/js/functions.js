@@ -266,12 +266,114 @@
 
 			if ( result.hasOwnProperty( 'success' ) && true === result[ 'success' ] ) {
 
-				form.querySelector( '[name=resume_id]' ).value = result.data['id'];
+				form.querySelector( '[name=resume_id]' ).value = result.data[ 'id' ];
 
 				setTimeout( function () {
 					timeless_message( 'Данные сохранены', 5, '.js-form__info' );
 				}, 2000 );
 
+			}
+
+		} ).catch( function ( err ) {
+			// запрос выполнен не успешно
+
+			// вывод возникшей ошибки
+			if ( err.hasOwnProperty( 'statusText' ) ) {
+				console.error( 'Возникла ошибка', err.statusText );
+			} else {
+				console.error( err );
+			}
+		} );
+
+	} );
+
+	on( 'click', '.js-resume__remove', function ( event ) {
+		event.preventDefault();
+
+		let button = event.target;
+		// получение данных формы
+		let block  = button.closest( '[data-id]' );
+		let id     = block.getAttribute( 'data-id' );
+		let data   = {
+			action : 'remove_resume',
+			id : id
+		}
+
+		// вывод данных в консоль
+		console.log( data );
+		timeless_message( 'Данные отправляются...', 5, '.js-form__info' );
+		// отправка запроса
+		ajax( {
+			method : 'GET',
+			url : 'includes/ajax.php',
+			headers : {
+				'Access-Control-Allow-Origin' : '*',
+			},
+			data : data
+		} ).then( function ( result ) {
+			// запрос выполнен успешно
+
+			// преобразование полученных данных из строки в фомате json в объект
+			result = JSON.parse( result );
+			console.log( result );
+
+			if ( result.hasOwnProperty( 'success' ) && true === result[ 'success' ] ) {
+				block.parentNode.removeChild( block );
+			}
+
+		} ).catch( function ( err ) {
+			// запрос выполнен не успешно
+
+			// вывод возникшей ошибки
+			if ( err.hasOwnProperty( 'statusText' ) ) {
+				console.error( 'Возникла ошибка', err.statusText );
+			} else {
+				console.error( err );
+			}
+		} );
+
+	} );
+
+	on( 'click', '.js-resume__edit', function ( event ) {
+		event.preventDefault();
+
+		let button = event.target;
+		// получение данных формы
+		let block  = button.closest( '[data-id]' );
+		let id     = block.getAttribute( 'data-id' );
+		let data   = {
+			action : 'ajax_get_resume',
+			id : id
+		}
+
+		// вывод данных в консоль
+		console.log( data );
+		timeless_message( 'Данные отправляются...', 5, '.js-form__info' );
+		// отправка запроса
+		ajax( {
+			method : 'GET',
+			url : 'includes/ajax.php',
+			headers : {
+				'Access-Control-Allow-Origin' : '*',
+			},
+			data : data
+		} ).then( function ( result ) {
+			// запрос выполнен успешно
+
+			// преобразование полученных данных из строки в фомате json в объект
+			result = JSON.parse( result );
+			console.log( result );
+
+			if ( result.hasOwnProperty( 'success' ) && true === result[ 'success' ] ) {
+				console.log( result[ 'data' ] );
+				let form = document.querySelector( '.js-form-resume' );
+				for ( let key in result[ 'data' ][ 0 ] ) {
+					if ( result[ 'data' ][ 0 ].hasOwnProperty( key ) ) {
+
+						// устанавливаем значение указанного поля
+						form.querySelector( '[name=' + key + ']' ).value = result[ 'data' ][ 0 ][ key ];
+					}
+				}
 			}
 
 		} ).catch( function ( err ) {

@@ -204,30 +204,19 @@ function get_user_meta() {
 
 function get_resume() {
 
+	$where = '';
+	if ( ! empty( $_REQUEST['id'] ) ) {
+		$where = ' WHERE resume_id = ' . $_REQUEST['id'];
+	}
 
-	$fields = array(
-		array(
-			'start'       => '2015-03-01',
-			'end'         => '2015-12-01',
-			'position'    => 'Механик',
-			'location'    => 'Сызрань',
-			'description' => 'Работал в автосервисе, делал все.',
-		),
-		array(
-			'start'       => '2016-01-01',
-			'end'         => '2016-03-01',
-			'position'    => 'Механик-электрик',
-			'location'    => 'Саратов',
-			'description' => 'Выкручивал лампочки',
-		),
-		array(
-			'start'       => '2016-04-01',
-			'end'         => '0000-00-00',
-			'position'    => 'Механик-танцор',
-			'location'    => 'Москва',
-			'description' => 'Ничего не делаю, но деньги получаю.',
-		),
-	);
+	$query  = 'SELECT * FROM `resume`' . $where . ' ORDER BY end DESC, start DESC';
+	$result = do_query( $query );
+
+	$fields = array();
+	while ( $row = $result->fetch_assoc() ) {
+		$fields[] = $row;
+	}
+
 
 	return $fields;
 }
@@ -253,7 +242,7 @@ function fields_resume() {
 			'type'     => 'date',
 			'class'    => 'form__controll',
 			'required' => 1,
-			'value' => date('Y-m-d'),
+			'value'    => date( 'Y-m-d' ),
 		),
 		'end'         => array(
 			'label'    => 'Дата окончания работы',
@@ -261,7 +250,7 @@ function fields_resume() {
 			'type'     => 'date',
 			'class'    => 'form__controll',
 			'required' => 1,
-			'value' => date('Y-m-d'),
+			'value'    => date( 'Y-m-d' ),
 		),
 		'position'    => array(
 			'label'   => 'Должность',
@@ -276,10 +265,10 @@ function fields_resume() {
 			'class'   => 'form__controll',
 		),
 		'description' => array(
-			'label'    => 'Описание',
-			'perform'  => 's',
-			'type'     => 'text',
-			'class'    => 'form__controll',
+			'label'   => 'Описание',
+			'perform' => 's',
+			'type'    => 'text',
+			'class'   => 'form__controll',
 		),
 	);
 
@@ -335,5 +324,6 @@ function fields_resume() {
  *
  *
  */
+
 
 // eof

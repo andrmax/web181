@@ -31,7 +31,7 @@ function send_json_error( $data = null ) {
  * Обновление данных профиля
  */
 function update_profile() {
-	if ( ! empty( $_REQUEST ) ) {
+	if ( ! empty( $_REQUEST ) && is_admin() ) {
 		$data = $_REQUEST;
 
 		$fields  = fields_profile();
@@ -178,21 +178,21 @@ function update_profile() {
  * @return bool|mysqli_result|string
  */
 function update_user( $insert, $update ) {
+	if ( is_admin() ) {
+		// проверка на наличае хоть каких-то данных
+		/*$query  = 'SELECT COUNT(*) FROM `users`';
+		$result = do_query( $query );
+		$result = (int) $result->fetch_row()[0];*/
 
-	// проверка на наличае хоть каких-то данных
-	/*$query  = 'SELECT COUNT(*) FROM `users`';
-	$result = do_query( $query );
-	$result = (int) $result->fetch_row()[0];*/
+		// если данных нет
+		//if ( empty( $result ) )
+		{
 
-	// если данных нет
-	//if ( empty( $result ) )
-	{
-
-		// формируем запрос на добавление
-		$insert['keys']   = implode( ', ', $insert['keys'] );
-		$insert['values'] = implode( ', ', $insert['values'] );
-		$query            = 'INSERT INTO `users` (' . $insert['keys'] . ')VALUES (' . $insert['values'] . ')';
-	}/* else {
+			// формируем запрос на добавление
+			$insert['keys']   = implode( ', ', $insert['keys'] );
+			$insert['values'] = implode( ', ', $insert['values'] );
+			$query            = 'INSERT INTO `users` (' . $insert['keys'] . ')VALUES (' . $insert['values'] . ')';
+		}/* else {
 
 		$user_id = <функция получения id пользователя>;
 		// если данные есть, обновляем их
@@ -200,8 +200,11 @@ function update_user( $insert, $update ) {
 		$query  = 'UPDATE `users` SET ' . $update . ' WHERE id = '.$user_id;
 	}*/
 
-	//send_json_success( $query );
-	return do_query( $query );
+		//send_json_success( $query );
+		return do_query( $query );
+	}
+
+	return false;
 }
 
 
@@ -214,25 +217,28 @@ function update_user( $insert, $update ) {
  * @return bool|mysqli_result|string
  */
 function update_user_meta( $meta_key, $meta_value ) {
+	if ( is_admin() ) {
+		// проверка на существование записи с указанными параметрами
+		$query  = 'SELECT COUNT(*) FROM `usermeta` WHERE `key` = ' . $meta_key;
+		$result = do_query( $query );
+		$result = (int) $result->fetch_row()[0];
 
-	// проверка на существование записи с указанными параметрами
-	$query  = 'SELECT COUNT(*) FROM `usermeta` WHERE `key` = ' . $meta_key;
-	$result = do_query( $query );
-	$result = (int) $result->fetch_row()[0];
+		// если запись существует
+		if ( ! empty( $result ) ) {
 
-	// если запись существует
-	if ( ! empty( $result ) ) {
+			// запрос н аобновление
+			$query = "UPDATE `usermeta` SET `value` = {$meta_value} WHERE `key` = {$meta_key}";
+		} else {
 
-		// запрос н аобновление
-		$query = "UPDATE `usermeta` SET `value` = {$meta_value} WHERE `key` = {$meta_key}";
-	} else {
+			// запрос на добавление
+			$query = "INSERT INTO `usermeta`  (`key`,`value`)VALUES({$meta_key},{$meta_value})";
+		}
 
-		// запрос на добавление
-		$query = "INSERT INTO `usermeta`  (`key`,`value`)VALUES({$meta_key},{$meta_value})";
+		// возврат результата выполнения запроса
+		return do_query( $query );
 	}
 
-	// возврат результата выполнения запроса
-	return do_query( $query );
+	return false;
 }
 
 /**
@@ -251,7 +257,8 @@ ajax_request();
 
 
 function update_resume() {
-	if ( ! empty( $_REQUEST ) ) {
+	global $link;
+	if ( ! empty( $_REQUEST ) && is_admin() ) {
 		$data = $_REQUEST;
 
 		$fields = fields_resume();
@@ -299,9 +306,26 @@ function update_resume() {
 		do_query( $query );
 
 		// todo: получить только что добавленный id, чтобы вернуть его в форму
-		$id = 3;
+		$id = $link->insert_id;
 		send_json_success( array( 'id' => $id ) );
 	}
 }
+
+
+function remove_resume() {
+	if ( ! empty( $_REQUEST['id'] ) && is_admin() ) {
+		$query = 'DELETE FROM `resume` WHERE resume_id =' . $_REQUEST['id'];
+		if ( true == do_query( $query ) ) {
+			send_json_success();
+		} else {
+			send_json_error();
+		}
+	}
+}
+
+function ajax_get_resume() {
+	send_json_success( get_resume() );
+}
+
 
 // eof
